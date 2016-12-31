@@ -136,8 +136,8 @@ namespace CFVG_Card_Creator
                         }
 
                         //End styles
-                        if (measureItalics && endItalics) italics = false;
-                        if (measureBold && endBold) bold = false;
+                        if (measureItalics && endItalics) measureItalics = false;
+                        if (measureBold && endBold) measureBold = false;
                     }
                 }
 
