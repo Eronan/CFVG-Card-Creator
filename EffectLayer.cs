@@ -18,11 +18,14 @@ namespace CFVG_Card_Creator
 
         }
 
-        public EffectLayer(string text, FontFamily textFont, int startY, Dictionary<string, Bitmap> effectIcons, Dictionary<string, Bitmap> specialIcons)
+        public EffectLayer(string text, FontFamily textFont, int startY, Dictionary<string, Bitmap> effectIcons, Dictionary<string, Bitmap> specialIcons, char[] wordSplit)
         {
             bool red = false;
             bool italics = false;
             bool bold = false;
+
+            bool measureBold = false;
+            bool measureItalics = false;
 
             text = text.Replace("<<", "«").Replace(">>", "»");
 
@@ -33,9 +36,9 @@ namespace CFVG_Card_Creator
             {
                 //Find Respace Value
                 int width = 0;
-                foreach (string word in line.Split(' '))
+                foreach (string word in line.Split(wordSplit[0]))
                 {
-                    foreach (string input in word.Split('_'))
+                    foreach (string input in word.Split(wordSplit[1]))
                     {
                         //Initialize Variables
                         Bitmap getBitmap = null;
@@ -43,14 +46,41 @@ namespace CFVG_Card_Creator
                         //Create editable string from initial
                         string newInput = input;
 
-                        //Remove Apostrophes
-                        if (input.StartsWith("'''"))
+                        //Notify Program to set value false
+                        bool endBold = false;
+                        bool endItalics = false;
+
+                        //Remove and Enable Colour Change, Italics and Bold
+                        while (newInput.StartsWith("<r>") || newInput.StartsWith("<i>") || newInput.StartsWith("<b>"))
                         {
-                            //Remove three apostrophes
-                            newInput = input.Remove(0, 3);
+                            if (newInput.StartsWith("<r>")) newInput = newInput.Remove(0, 3);
+                            else if (newInput.StartsWith("<i>"))
+                            {
+                                newInput = newInput.Remove(0, 3);
+                                measureItalics = true;
+                            }
+                            else if (newInput.StartsWith("<b>"))
+                            {
+                                newInput = newInput.Remove(0, 3);
+                                measureBold = true;
+                            }
                         }
-                        //Remove the end of three apostrophes
-                        if (newInput.EndsWith("'''")) newInput = newInput.Remove(newInput.Length - 3, 3);
+
+                        //Remove End Tags
+                        while (newInput.EndsWith("</b>") || newInput.EndsWith("</r>") || newInput.EndsWith("</i>"))
+                        {
+                            if (newInput.EndsWith("</r>")) newInput = newInput.Remove(newInput.Length - 4, 4);
+                            else if (newInput.EndsWith("</b>"))
+                            {
+                                newInput = newInput.Remove(newInput.Length - 4, 4);
+                                endBold = true;
+                            }
+                            else if (newInput.EndsWith("</i>"))
+                            {
+                                newInput = newInput.Remove(newInput.Length - 4, 4);
+                                endItalics = true;
+                            }
+                        }
 
                         if (newInput.StartsWith("{") && newInput.EndsWith("}"))
                         {
@@ -80,7 +110,13 @@ namespace CFVG_Card_Creator
                         }
                         else if (newInput.Length != 0)
                         {
-                            TextLayer temporary = new TextLayer(newInput, new Font(textFont, 11.5f, FontStyle.Regular), Color.Black, 0, 0, StringAlignment.Near);
+                            FontStyle style = FontStyle.Regular;
+
+                            if (measureBold && measureItalics) style = FontStyle.Bold | FontStyle.Italic;
+                            else if (measureItalics) style = FontStyle.Italic;
+                            else if (measureBold) style = FontStyle.Bold;
+
+                            TextLayer temporary = new TextLayer(newInput, new Font(textFont, 11.5f, style), Color.Black, 0, 0, StringAlignment.Near);
                             width += temporary.width + 3;
 
                             //Fix Spacing
@@ -98,40 +134,73 @@ namespace CFVG_Card_Creator
                         {
                             width += 3;
                         }
+
+                        //End styles
+                        if (measureItalics && endItalics) italics = false;
+                        if (measureBold && endBold) bold = false;
                     }
                 }
 
-                int respace = (MAXWIDTH - width) > 0 ? (MAXWIDTH - width) / line.Split(' ').Length : 0;
+                int respace = (MAXWIDTH - width) > 0 ? (MAXWIDTH - width) / line.Split(wordSplit[0]).Length : 0;
 
                 int currentX = 12;
 
-                foreach (string word in line.Split(' '))
+                foreach (string word in line.Split(wordSplit[0]))
                 {
-                    foreach (string input in word.Split('_'))
+                    foreach (string input in word.Split(wordSplit[1]))
                     {
                         //Initialize Variables
                         Bitmap getBitmap = null;
-                        bool redChanged = false;
 
                         //Create editable string from initial
                         string newInput = input;
 
-                        //Enable Change Colour to Red, Enable Italics, Enable Bold
-                        if (!italics && !red && input.StartsWith("\""))
+                        //Notify Program to set value false
+                        bool endBold = false;
+                        bool endItalics = false;
+                        bool endRed = false;
+
+                        //Remove and Enable Colour Change, Italics and Bold
+                        while (newInput.StartsWith("<r>") || newInput.StartsWith("<i>") || newInput.StartsWith("<b>"))
                         {
-                            red = true;
-                            redChanged = true;
-                        }
-                        else if (!italics && input.StartsWith("(")) italics = true;
-                        else if (input.StartsWith("'''"))
-                        {
-                            //Remove three apostrophes
-                            newInput = input.Remove(0, 3);
-                            bold = true;
+                            if (newInput.StartsWith("<r>"))
+                            {
+                                newInput = newInput.Remove(0, 3);
+                                red = true;
+                            }
+                            else if (newInput.StartsWith("<i>"))
+                            {
+                                newInput = newInput.Remove(0, 3);
+                                italics = true;
+                            }
+                            else if (newInput.StartsWith("<b>"))
+                            {
+                                newInput = newInput.Remove(0, 3);
+                                bold = true;
+                            }
                         }
 
-                        //Remove the end of three apostrophes
-                        if (newInput.EndsWith("'''")) newInput = newInput.Remove(newInput.Length - 3, 3);
+                        //Remove End Tags
+                        while (newInput.EndsWith("</b>") || newInput.EndsWith("</r>") || newInput.EndsWith("</i>"))
+                        {
+                            if (newInput.EndsWith("</b>"))
+                            {
+                                newInput = newInput.Remove(newInput.Length - 4, 4);
+                                endBold = true;
+                            }
+                            else if (newInput.EndsWith("</r>"))
+                            {
+                                newInput = newInput.Remove(newInput.Length - 4, 4);
+                                endRed = true;
+                            }
+                            else if (newInput.EndsWith("</i>"))
+                            {
+                                newInput = newInput.Remove(newInput.Length - 4, 4);
+                                endItalics = true;
+                            }
+                        }
+
+
 
                         //Set colour of the text
                         Color textColour = red ? Color.Red : Color.Black;
@@ -203,12 +272,9 @@ namespace CFVG_Card_Creator
                         }
 
                         //End styles
-                        if (red && input.EndsWith("\"") && (!redChanged || input.Length > 1)) red = false;
-                        else if (italics && input.EndsWith(")")) italics = false;
-                        else if (input.EndsWith("'''"))
-                        {
-                            bold = false;
-                        }
+                        if (red && endRed) red = false;
+                        if (italics && endItalics) italics = false;
+                        if (bold && endBold) bold = false;
                     }
 
                     currentX += respace;

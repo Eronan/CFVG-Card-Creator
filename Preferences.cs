@@ -6,20 +6,17 @@ namespace CFVG_Card_Creator
     //Set Preferences
     public partial class Preferences : Form
     {
-        public string cardArtLocation;
-        public string imageLocation;
-        public string dataLocation;
 
         //Initializer
-        public Preferences(string cardArtPath, string imagePath, string dataPath)
+        public Preferences(string cardArtPath, string imagePath, string dataPath, bool invertSpace)
         {
             InitializeComponent();
 
+            //Initialize Settings
+            textbox_CardArt.Text = cardArtPath;
             textbox_Images.Text = imagePath;
             textbox_Data.Text = dataPath;
-
-            imageLocation = imagePath;
-            dataLocation = dataPath;
+            checkbox_Respace.Checked = invertSpace;
         }
 
         //Load Card Art Locations
@@ -30,7 +27,6 @@ namespace CFVG_Card_Creator
             if (result != DialogResult.Cancel)
             {
                 textbox_CardArt.Text = ImageBrowser.SelectedPath;
-                cardArtLocation = ImageBrowser.SelectedPath;
             }
         }
 
@@ -42,7 +38,6 @@ namespace CFVG_Card_Creator
             if (result != DialogResult.Cancel)
             {
                 textbox_Images.Text = ImageBrowser.SelectedPath;
-                imageLocation = ImageBrowser.SelectedPath;
             }
         }
 
@@ -54,7 +49,6 @@ namespace CFVG_Card_Creator
             if (result != DialogResult.Cancel)
             {
                 textbox_Data.Text = DataBrowser.SelectedPath;
-                dataLocation = DataBrowser.SelectedPath;
             }
         }
 
@@ -64,6 +58,7 @@ namespace CFVG_Card_Creator
             textbox_CardArt.Text = "";
             textbox_Data.Text = "";
             textbox_Images.Text = "";
+            checkbox_Respace.Checked = false;
         }
 
     }

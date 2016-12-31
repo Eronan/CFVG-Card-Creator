@@ -40,10 +40,11 @@ namespace CFVG_Card_Creator
         //Other
         string filePath = null;
 
-        //Initial Directories
+        //Preference Information
         string cardArtPath = "";
         string imagePath = "";
         string dataPath = "";
+        bool invertRespace = false;
 
         public Main()
         {
@@ -134,6 +135,11 @@ namespace CFVG_Card_Creator
                                 reader.Read();
                                 dataPath = reader.Value;
                                 break;
+                            case "RESPACE":
+                                //Read BooleaN for Inverting
+                                reader.Read();
+                                invertRespace = bool.Parse(reader.Value);
+                                break;
                         }
                     }
                 }
@@ -183,10 +189,15 @@ namespace CFVG_Card_Creator
             //Load up Dictionary of Effect Replacements into ToolStrip Menu
             foreach (KeyValuePair<string, Bitmap> item in effectReplacements)
             {
-                ToolStripMenuItem newTool = new ToolStripMenuItem(item.Key, item.Value, SymbolMenu_Item_Click, "SymbolMenu" + item.Key);
-                newTool.ImageScaling = ToolStripItemImageScaling.None;
-                EditMenu_Symbols.DropDownItems.Add(newTool);
-                InsertSymbol.Items.Add(newTool);
+                //EditMenu Tool
+                ToolStripMenuItem MenuTool = new ToolStripMenuItem(item.Key, item.Value, SymbolMenu_Item_Click, "SymbolMenu_" + item.Key);
+                MenuTool.ImageScaling = ToolStripItemImageScaling.None;
+                EditMenu_Symbols.DropDownItems.Add(MenuTool);
+
+                //InsertSymbol Tool
+                ToolStripMenuItem ContextTool = new ToolStripMenuItem(item.Key, item.Value, SymbolMenu_Item_Click, "InsertSymbol_" + item.Key);
+                ContextTool.ImageScaling = ToolStripItemImageScaling.None;
+                InsertSymbol.Items.Add(ContextTool);
             }
 
             EditMenu_Symbols.DropDown.MaximumSize = new Size(EditMenu_Symbols.DropDown.Width, 600);
@@ -211,7 +222,7 @@ namespace CFVG_Card_Creator
             textbox_Illust.Text = "";
             textbox_Design.Text = "";
             richtextbox_Effect.Text = "";
-            checkbox_Effect.Checked = false;
+            checkbox_Effect.Checked = true;
             richtextbox_Flavour.Text = "";
             CardArt = new Bitmap(349, 508);
 
@@ -339,13 +350,14 @@ namespace CFVG_Card_Creator
         private void EditMenu_Preferences_Click(object sender, EventArgs e)
         {
             //Load Preferences
-            Preferences prefForm = new Preferences(cardArtPath, imagePath, dataPath);
+            Preferences prefForm = new Preferences(cardArtPath, imagePath, dataPath, invertRespace);
 
             if (prefForm.ShowDialog(this) == DialogResult.OK)
             {
-                cardArtPath = prefForm.cardArtLocation;
-                imagePath = prefForm.imageLocation;
-                dataPath = prefForm.dataLocation;
+                cardArtPath = prefForm.textbox_CardArt.Text;
+                imagePath = prefForm.textbox_Images.Text;
+                dataPath = prefForm.textbox_Data.Text;
+                invertRespace = prefForm.checkbox_Respace.Checked;
 
                 saveImage.InitialDirectory = imagePath;
                 openData.InitialDirectory = dataPath;
@@ -356,14 +368,31 @@ namespace CFVG_Card_Creator
                     writer.WriteStartDocument();
                     writer.WriteStartElement("Settings");
 
-                    writer.WriteElementString("CARDARTPATH", cardArtPath);
-                    writer.WriteElementString("IMAGEPATH", imagePath);
-                    writer.WriteElementString("DATAPATH", dataPath);
+
+                    //Path for Card Art
+                    writer.WriteStartElement("CARDARTPATH");
+                    writer.WriteString(cardArtPath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Image Path
+                    writer.WriteStartElement("IMAGEPATH");
+                    writer.WriteString(imagePath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Data Path
+                    writer.WriteStartElement("DATAPATH");
+                    writer.WriteString(dataPath);
+                    writer.WriteFullEndElement();
+
+                    //Boolean Value for Respacing
+                    writer.WriteElementString("RESPACE", invertRespace.ToString());
 
                     writer.WriteEndElement();
                     writer.WriteEndDocument();
                 }
             }
+
+            prefForm.Dispose();
         }
 
         private void HelpMenu_About_Click(object sender, EventArgs e)
@@ -375,7 +404,7 @@ namespace CFVG_Card_Creator
         private void HelpMenu_Help_Click(object sender, EventArgs e)
         {
             //Start Word Document
-            Process.Start(@"Help.docx");
+            Process.Start(@"Help.pdf");
         }
 
         public static Bitmap BorderFromResources(string border)
@@ -474,6 +503,67 @@ namespace CFVG_Card_Creator
             if (!richtextbox_Effect.ContainsFocus) return;
             ToolStripMenuItem itemSender = sender as ToolStripMenuItem;
             richtextbox_Effect.SelectedText = "_{" + itemSender.Text + "}_";
+        }
+
+        private void ExportMenu_FanonTable_Click(object sender, EventArgs e)
+        {
+            DialogResult nameResult = MessageBox.Show("Is your card's name already in usage?", "Card Name", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+            //Start CardTable Template
+            string cardTableExport = "{{CardTable" + Environment.NewLine;
+
+            //Add in Trigger Parameter
+            if (combobox_Border.Text == "Stride" || combobox_Border.Text == "G-Guardian") cardTableExport += "|trig = G" + Environment.NewLine;
+            else if (combobox_Trigger.Text != "None" && combobox_Trigger.Enabled) cardTableExport += "|trig = " + combobox_Trigger.Text.Replace(" Trigger", "") + Environment.NewLine;
+
+            //Choose Nation
+            if (combobox_Nation.Text != "Cray Elemental" || combobox_Nation.Text != "Touken Ranbu" || combobox_Nation.Text != "None")
+            {
+                cardTableExport += "|nation = " + combobox_Nation.Text + Environment.NewLine;
+            }
+
+            cardTableExport += "|clan = " + textbox_Clan.Text + Environment.NewLine;
+
+            //Only Write Name if there is already a card with the same name
+            if (nameResult == DialogResult.Yes) cardTableExport += "|name = " + textbox_Name.Text + Environment.NewLine;
+
+            //Image default uses .png and card name
+            cardTableExport += "|image = " + textbox_Name.Text + ".png <!--You may need to change this to whatever the image is called on the website-->" + Environment.NewLine;
+
+            //Grade
+            cardTableExport += "|grade = " + numeric_Grade.Value + Environment.NewLine;
+
+            //G-Guardian determines Power && Crit
+            if (combobox_Border.Text != "G-Guardian") cardTableExport += "|power = " + numeric_Power.Value + Environment.NewLine;
+            else cardTableExport += "|critical = 0" + Environment.NewLine;
+
+            //Shield
+            if (combobox_Shield.Text != "None") cardTableExport += "|shield = " + combobox_Shield.Text.Replace(" Shield", "");
+
+            //Race(s): If there are multiple races signified by '/' put in race and race2 parameters
+            string[] races = textbox_Race.Text.Split('/');
+            cardTableExport += "|race = " + races[0] + Environment.NewLine;
+            if (races.Length > 1) cardTableExport += "|race2 = " + races[1] + Environment.NewLine;
+
+            //Only Input if valid
+            if (textbox_Illust.TextLength > 0) cardTableExport += "|illust = " + textbox_Illust.Text + Environment.NewLine;
+            if (textbox_Design.TextLength > 0) cardTableExport += "|design = " + textbox_Design.Text + Environment.NewLine;
+            if (textbox_Code.TextLength > 0) cardTableExport += "|set1 = " + textbox_Code.Text + Environment.NewLine;
+            if (richtextbox_Flavour.TextLength > 0) cardTableExport += "|flavor = " + richtextbox_Flavour.Text + Environment.NewLine;
+            if (checkbox_Effect.Checked) cardTableExport += "|effect = [Enter Effect Here]" + Environment.NewLine;
+
+            //End Template
+            cardTableExport += "}}";
+
+            DialogResult copy = ShowExportText("CardTable", cardTableExport);
+            if (copy == DialogResult.OK)
+            {
+                Clipboard.SetText(cardTableExport);
+                if (System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+                {
+                    Process.Start("http://cardfightvanguardfanon.wikia.com/wiki/Cardfight!!_Vanguard_Fanon_Wiki");
+                }
+            }
         }
 
         private void checkbox_Effect_CheckedChanged(object sender, EventArgs e)
@@ -653,7 +743,7 @@ namespace CFVG_Card_Creator
                 writer.Write("|LegMate=" + (checkbox_LegMate.Checked ? 1 : 0));
                 writer.Write("|Illust=" + textbox_Illust.Text);
                 writer.Write("|Design=" + textbox_Design.Text);
-                writer.Write("|Effect=" + richtextbox_Effect.Text);
+                writer.Write("|Effect=" + (checkbox_Effect.Checked ? richtextbox_Effect.Text : ""));
                 writer.Write("|Flavour=" + richtextbox_Flavour.Text);
                 writer.Write("|Image=" + bitmapString);
                 writer.Close();
@@ -849,6 +939,10 @@ namespace CFVG_Card_Creator
             //Effect of Card
             if (checkbox_Effect.Checked && richtextbox_Effect.Text.Length > 0)
             {
+                //Determne Word Splitter
+                char[] splitChars = invertRespace ? new char[2] { '_', ' ' } : new char[2] { ' ', '_' };
+
+
                 //Create Effect Box
                 Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_Bottom, 8, 405));
                 //Create based on number of lines
@@ -863,14 +957,14 @@ namespace CFVG_Card_Creator
                         //Only Top and Bottom Images
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_Top, 8, 388));
                         //Insert Effect Text
-                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 398, effectReplacements, specialReplacements);
+                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 398, effectReplacements, specialReplacements, splitChars);
                         break;
                     case 2:
                         //Top, LineCut and Bottom Images
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_LineCut, 8, 388));
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_Top, 8, 371));
                         //Insert Effect Text
-                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 381, effectReplacements, specialReplacements);
+                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 381, effectReplacements, specialReplacements, splitChars);
                         break;
                     case 3:
                         //Top, 2 LineCut and Bottom Images
@@ -878,7 +972,7 @@ namespace CFVG_Card_Creator
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_LineCut, 8, 371));
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_Top, 8, 354));
                         //Insert Effect Text
-                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 364, effectReplacements, specialReplacements);
+                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 364, effectReplacements, specialReplacements, splitChars);
                         break;
                     case 4:
                         //Top, 2 LineCut, 1 Lines and Bottom Images
@@ -887,7 +981,7 @@ namespace CFVG_Card_Creator
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_LineCut, 8, 354));
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_Top, 8, 337));
                         //Insert Effect Text
-                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 347, effectReplacements, specialReplacements);
+                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 347, effectReplacements, specialReplacements, splitChars);
                         break;
                     default:
                         //Top, 2 LineCut, X Lines and Bottom Images
@@ -909,7 +1003,7 @@ namespace CFVG_Card_Creator
                         //Top of Effect Box
                         Layers_Images.Add(new ImageLayer(Properties.Resources.EffectBox_Top, 8, 354 - (int)extralines * 17));
                         //Insert Effect Text
-                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 364 - (int)extralines * 17, effectReplacements, specialReplacements);
+                        Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 364 - (int)extralines * 17, effectReplacements, specialReplacements, splitChars);
                         break;
                 }
             }
@@ -920,7 +1014,7 @@ namespace CFVG_Card_Creator
             {
                 //Get Number of Lines
                 int flavourCount = richtextbox_Flavour.Lines.Length;
-                int effectCount = richtextbox_Effect.Lines.Length;
+                int effectCount = checkbox_Effect.Checked ? richtextbox_Effect.Lines.Length : 0;
 
                 //Width of the Text
                 float width = 0;
@@ -994,24 +1088,24 @@ namespace CFVG_Card_Creator
         //About Dialog
         private static DialogResult ShowAboutDialog()
         {
-            System.Drawing.Size size = new System.Drawing.Size(500, 180);
+            Size size = new Size(500, 180);
             Form About = new Form();
 
-            About.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            About.FormBorderStyle = FormBorderStyle.FixedDialog;
             About.ClientSize = size;
-            About.Text = "Name";
+            About.Text = "About";
 
             Label DeveloperLabel = new Label();
             DeveloperLabel.Text = "Developers:";
             DeveloperLabel.Font = SystemFonts.DialogFont;
-            DeveloperLabel.Location = new System.Drawing.Point((size.Width / 2) - (DeveloperLabel.Size.Width / 3), 5);
+            DeveloperLabel.Location = new Point((size.Width / 2) - (DeveloperLabel.Size.Width / 3), 5);
             About.Controls.Add(DeveloperLabel);
 
             RichTextBox Developers = new RichTextBox();
             Developers.ReadOnly = true;
             Developers.BackColor = Color.White;
-            Developers.Size = new System.Drawing.Size(size.Width - 10, 140 - DeveloperLabel.Size.Height);
-            Developers.Location = new System.Drawing.Point(5, 5 + DeveloperLabel.Size.Height);
+            Developers.Size = new Size(size.Width - 10, 140 - DeveloperLabel.Size.Height);
+            Developers.Location = new Point(5, 5 + DeveloperLabel.Size.Height);
             Developers.Text = "Original Author" + Environment.NewLine + "Eronan"
                 + Environment.NewLine + Environment.NewLine + "Images"
                 + Environment.NewLine + "Eronan" + Environment.NewLine + "Mooshra12"
@@ -1023,11 +1117,45 @@ namespace CFVG_Card_Creator
             About.Controls.Add(Developers);
 
             Button okButton = new Button();
-            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            okButton.DialogResult = DialogResult.OK;
             okButton.Name = "okButton";
-            okButton.Size = new System.Drawing.Size(75, 23);
+            okButton.Size = new Size(75, 23);
             okButton.Text = "&OK";
-            okButton.Location = new System.Drawing.Point((size.Width / 2) - (okButton.Size.Width / 2), 147);
+            okButton.Location = new Point((size.Width / 2) - (okButton.Size.Width / 2), 147);
+            About.Controls.Add(okButton);
+
+            About.AcceptButton = okButton;
+
+            DialogResult result = About.ShowDialog();
+            return result;
+        }
+
+        //About Dialog
+        private static DialogResult ShowExportText(string name, string text)
+        {
+            Size size = new Size(500, 180);
+            Form About = new Form();
+
+            About.FormBorderStyle = FormBorderStyle.FixedDialog;
+            About.ClientSize = size;
+            About.Text = name;
+
+            RichTextBox TextBox = new RichTextBox();
+            TextBox.ReadOnly = true;
+            TextBox.BackColor = Color.White;
+            TextBox.Size = new Size(size.Width - 10, 140);
+            TextBox.Location = new Point(5, 5);
+            TextBox.Text = text;
+            TextBox.WordWrap = false;
+
+            About.Controls.Add(TextBox);
+
+            Button okButton = new Button();
+            okButton.DialogResult = DialogResult.OK;
+            okButton.Name = "okButton";
+            okButton.Size = new Size(75, 23);
+            okButton.Text = "Copy";
+            okButton.Location = new Point((size.Width / 2) - (okButton.Size.Width / 2), 147);
             About.Controls.Add(okButton);
 
             About.AcceptButton = okButton;

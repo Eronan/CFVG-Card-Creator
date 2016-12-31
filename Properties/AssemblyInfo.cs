@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CFVG Card Creator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Eronan")]
 [assembly: AssemblyProduct("CFVG Card Creator")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,34 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.4")]
-[assembly: AssemblyFileVersion("0.4")]
+[assembly: AssemblyVersion("0.5")]
+[assembly: AssemblyFileVersion("0.5")]
+
+/*Changelog 31/12/2016 Ver 0.5
+    Counter Blast, Counter Charge, Soul Blast, Soul Charge Icons added back in
+    "Has Effect" is treated as if there was nothing in the textbox
+    Fixed Symbol Menu Problem
+    Transparent Images Problem fixed (Still do not recommend using Transparent Images)
+    The Effect Box now uses Tags like HTML instead of automatically changing the style
+    Fixed Issue with Text Measuring and Styles
+    Fixed Transparency on ACT/CONT/AUTO/IMM images
+    Added in Fanon CardTable Export
+    Invert '_' and ' ' for respacing available
+    Changed the Help Document from Word to PDF
+    Updated Help Document with new Features
+    Fixed Bug with Empty Setting Preferences
+ *Changelog 29/12/2016 Ver 0.4:
+    Touken Ranbu + Cray Elemental 'Nations' available. (You are not able to add in your own 'Nations' like these two)
+    If you "Save" or "Save As", you are able to Reload it without Opening it first.
+    You now must choose the outline colour for your Nation.
+    New will cause the Preview to reset as well.
+    Flavour Text available.
+    Effect Text Box now more transparent.
+    Deleted Unused Fonts.
+    Git Repository available.
+    Automatic Load Card Art Location available
+ *21/12/2016 Ver 0.3:
+    Added Ability Support
+    Replacement.txt Updated to Work with new Ability Support
+    Updated Help Document on Effect Icons
+*/

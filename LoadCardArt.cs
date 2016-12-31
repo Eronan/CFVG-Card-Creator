@@ -71,7 +71,10 @@ namespace CFVG_Card_Creator
 
             //Get the Rectangle from the Numerics
             RectangleF sourceRect = new RectangleF((float)numeric_PosX.Value, (float)numeric_PosY.Value, (float)numeric_Width.Value, (float)numeric_Height.Value);
-            
+
+            saveBitmap.Dispose();
+            saveBitmap = new Bitmap(349, 441);
+
             //Load Graphics of Bitmap
             using (Graphics g = Graphics.FromImage(saveBitmap))
             {

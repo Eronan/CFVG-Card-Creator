@@ -48,6 +48,12 @@
             this.label_Flavour = new System.Windows.Forms.Label();
             this.richtextbox_Effect = new System.Windows.Forms.RichTextBox();
             this.InsertSymbol = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.InsertSymbol_LeftBracket = new System.Windows.Forms.ToolStripMenuItem();
+            this.InsertSymbol_RightBracket = new System.Windows.Forms.ToolStripMenuItem();
+            this.InsertSymbol_CB = new System.Windows.Forms.ToolStripMenuItem();
+            this.InsertSymbol_CC = new System.Windows.Forms.ToolStripMenuItem();
+            this.InsertSymbol_SB = new System.Windows.Forms.ToolStripMenuItem();
+            this.InsertSymbol_SC = new System.Windows.Forms.ToolStripMenuItem();
             this.label_Effect = new System.Windows.Forms.Label();
             this.textbox_Illust = new System.Windows.Forms.TextBox();
             this.label_Illust = new System.Windows.Forms.Label();
@@ -79,10 +85,15 @@
             this.FileMenu_Close = new System.Windows.Forms.ToolStripMenuItem();
             this.menustripTool_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu_Symbols = new System.Windows.Forms.ToolStripMenuItem();
+            this.SymbolMenu_BrackLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.SymbolMenu_BrackRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.SymbolMenu_CB = new System.Windows.Forms.ToolStripMenuItem();
+            this.SymbolMenu_CC = new System.Windows.Forms.ToolStripMenuItem();
+            this.SymbolMenu_SB = new System.Windows.Forms.ToolStripMenuItem();
+            this.SymbolMenu_SC = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu_Preferences = new System.Windows.Forms.ToolStripMenuItem();
             this.menustripTool_Export = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportMenu_FanonTable = new System.Windows.Forms.ToolStripMenuItem();
-            this.ExportMenu_SimDB = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportMenu_Image = new System.Windows.Forms.ToolStripMenuItem();
             this.menustripTool_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,19 +102,7 @@
             this.saveImage = new System.Windows.Forms.SaveFileDialog();
             this.saveData = new System.Windows.Forms.SaveFileDialog();
             this.openData = new System.Windows.Forms.OpenFileDialog();
-            this.InsertSymbol_CB = new System.Windows.Forms.ToolStripMenuItem();
-            this.InsertSymbol_CC = new System.Windows.Forms.ToolStripMenuItem();
-            this.InsertSymbol_SB = new System.Windows.Forms.ToolStripMenuItem();
-            this.InsertSymbol_SC = new System.Windows.Forms.ToolStripMenuItem();
-            this.SymbolMenu_CB = new System.Windows.Forms.ToolStripMenuItem();
-            this.SymbolMenu_CC = new System.Windows.Forms.ToolStripMenuItem();
-            this.SymbolMenu_SB = new System.Windows.Forms.ToolStripMenuItem();
-            this.SymbolMenu_SC = new System.Windows.Forms.ToolStripMenuItem();
-            this.InsertSymbol_LeftBracket = new System.Windows.Forms.ToolStripMenuItem();
-            this.InsertSymbol_RightBracket = new System.Windows.Forms.ToolStripMenuItem();
             this.picBox_CardImage = new System.Windows.Forms.PictureBox();
-            this.SymbolMenu_BrackLeft = new System.Windows.Forms.ToolStripMenuItem();
-            this.SymbolMenu_BrackRight = new System.Windows.Forms.ToolStripMenuItem();
             this.group_Edit.SuspendLayout();
             this.group_Legion.SuspendLayout();
             this.InsertSymbol.SuspendLayout();
@@ -325,7 +324,61 @@
             this.InsertSymbol_SB,
             this.InsertSymbol_SC});
             this.InsertSymbol.Name = "InsertSymbol";
-            this.InsertSymbol.Size = new System.Drawing.Size(159, 136);
+            this.InsertSymbol.Size = new System.Drawing.Size(170, 136);
+            // 
+            // InsertSymbol_LeftBracket
+            // 
+            this.InsertSymbol_LeftBracket.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Left;
+            this.InsertSymbol_LeftBracket.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.InsertSymbol_LeftBracket.Name = "InsertSymbol_LeftBracket";
+            this.InsertSymbol_LeftBracket.Size = new System.Drawing.Size(169, 22);
+            this.InsertSymbol_LeftBracket.Text = "Left Bracket";
+            this.InsertSymbol_LeftBracket.Click += new System.EventHandler(this.SymbolMenu_BrackLeft_Click);
+            // 
+            // InsertSymbol_RightBracket
+            // 
+            this.InsertSymbol_RightBracket.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Right;
+            this.InsertSymbol_RightBracket.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.InsertSymbol_RightBracket.Name = "InsertSymbol_RightBracket";
+            this.InsertSymbol_RightBracket.Size = new System.Drawing.Size(169, 22);
+            this.InsertSymbol_RightBracket.Text = "Right Bracket";
+            this.InsertSymbol_RightBracket.Click += new System.EventHandler(this.SymbolMenu_BrackRight_Click);
+            // 
+            // InsertSymbol_CB
+            // 
+            this.InsertSymbol_CB.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_CB;
+            this.InsertSymbol_CB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.InsertSymbol_CB.Name = "InsertSymbol_CB";
+            this.InsertSymbol_CB.Size = new System.Drawing.Size(169, 22);
+            this.InsertSymbol_CB.Text = "Counter Blast";
+            this.InsertSymbol_CB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
+            // InsertSymbol_CC
+            // 
+            this.InsertSymbol_CC.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_CC;
+            this.InsertSymbol_CC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.InsertSymbol_CC.Name = "InsertSymbol_CC";
+            this.InsertSymbol_CC.Size = new System.Drawing.Size(169, 22);
+            this.InsertSymbol_CC.Text = "Counter Charge";
+            this.InsertSymbol_CC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
+            // InsertSymbol_SB
+            // 
+            this.InsertSymbol_SB.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_SB;
+            this.InsertSymbol_SB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.InsertSymbol_SB.Name = "InsertSymbol_SB";
+            this.InsertSymbol_SB.Size = new System.Drawing.Size(169, 22);
+            this.InsertSymbol_SB.Text = "Soul Blast";
+            this.InsertSymbol_SB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
+            // InsertSymbol_SC
+            // 
+            this.InsertSymbol_SC.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_SC;
+            this.InsertSymbol_SC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.InsertSymbol_SC.Name = "InsertSymbol_SC";
+            this.InsertSymbol_SC.Size = new System.Drawing.Size(169, 22);
+            this.InsertSymbol_SC.Text = "Soul Charge";
+            this.InsertSymbol_SC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
             // 
             // label_Effect
             // 
@@ -637,6 +690,60 @@
             this.EditMenu_Symbols.Size = new System.Drawing.Size(139, 22);
             this.EditMenu_Symbols.Text = "Add Symbol";
             // 
+            // SymbolMenu_BrackLeft
+            // 
+            this.SymbolMenu_BrackLeft.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Left;
+            this.SymbolMenu_BrackLeft.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.SymbolMenu_BrackLeft.Name = "SymbolMenu_BrackLeft";
+            this.SymbolMenu_BrackLeft.Size = new System.Drawing.Size(169, 22);
+            this.SymbolMenu_BrackLeft.Text = "Left Bracket";
+            this.SymbolMenu_BrackLeft.Click += new System.EventHandler(this.SymbolMenu_BrackLeft_Click);
+            // 
+            // SymbolMenu_BrackRight
+            // 
+            this.SymbolMenu_BrackRight.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Right;
+            this.SymbolMenu_BrackRight.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.SymbolMenu_BrackRight.Name = "SymbolMenu_BrackRight";
+            this.SymbolMenu_BrackRight.Size = new System.Drawing.Size(169, 22);
+            this.SymbolMenu_BrackRight.Text = "Right Bracket";
+            this.SymbolMenu_BrackRight.Click += new System.EventHandler(this.SymbolMenu_BrackRight_Click);
+            // 
+            // SymbolMenu_CB
+            // 
+            this.SymbolMenu_CB.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_CB;
+            this.SymbolMenu_CB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.SymbolMenu_CB.Name = "SymbolMenu_CB";
+            this.SymbolMenu_CB.Size = new System.Drawing.Size(169, 22);
+            this.SymbolMenu_CB.Text = "Counter Blast";
+            this.SymbolMenu_CB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
+            // SymbolMenu_CC
+            // 
+            this.SymbolMenu_CC.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_CC;
+            this.SymbolMenu_CC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.SymbolMenu_CC.Name = "SymbolMenu_CC";
+            this.SymbolMenu_CC.Size = new System.Drawing.Size(169, 22);
+            this.SymbolMenu_CC.Text = "Counter Charge";
+            this.SymbolMenu_CC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
+            // SymbolMenu_SB
+            // 
+            this.SymbolMenu_SB.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_SB;
+            this.SymbolMenu_SB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.SymbolMenu_SB.Name = "SymbolMenu_SB";
+            this.SymbolMenu_SB.Size = new System.Drawing.Size(169, 22);
+            this.SymbolMenu_SB.Text = "Soul Blast";
+            this.SymbolMenu_SB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
+            // SymbolMenu_SC
+            // 
+            this.SymbolMenu_SC.Image = global::CFVG_Card_Creator.Properties.Resources.Icon_SC;
+            this.SymbolMenu_SC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.SymbolMenu_SC.Name = "SymbolMenu_SC";
+            this.SymbolMenu_SC.Size = new System.Drawing.Size(169, 22);
+            this.SymbolMenu_SC.Text = "Soul Charge";
+            this.SymbolMenu_SC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
             // EditMenu_Preferences
             // 
             this.EditMenu_Preferences.Name = "EditMenu_Preferences";
@@ -648,7 +755,6 @@
             // 
             this.menustripTool_Export.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ExportMenu_FanonTable,
-            this.ExportMenu_SimDB,
             this.ExportMenu_Image});
             this.menustripTool_Export.Name = "menustripTool_Export";
             this.menustripTool_Export.Size = new System.Drawing.Size(52, 20);
@@ -656,17 +762,10 @@
             // 
             // ExportMenu_FanonTable
             // 
-            this.ExportMenu_FanonTable.Enabled = false;
             this.ExportMenu_FanonTable.Name = "ExportMenu_FanonTable";
             this.ExportMenu_FanonTable.Size = new System.Drawing.Size(163, 22);
             this.ExportMenu_FanonTable.Text = "Fanon CardTable";
-            // 
-            // ExportMenu_SimDB
-            // 
-            this.ExportMenu_SimDB.Enabled = false;
-            this.ExportMenu_SimDB.Name = "ExportMenu_SimDB";
-            this.ExportMenu_SimDB.Size = new System.Drawing.Size(163, 22);
-            this.ExportMenu_SimDB.Text = "Sim Database";
+            this.ExportMenu_FanonTable.Click += new System.EventHandler(this.ExportMenu_FanonTable_Click);
             // 
             // ExportMenu_Image
             // 
@@ -722,88 +821,6 @@
             this.openData.FileName = "openFileDialog1";
             this.openData.Filter = "Card File (*.crd)|*.crd";
             // 
-            // InsertSymbol_CB
-            // 
-            this.InsertSymbol_CB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.InsertSymbol_CB.Name = "InsertSymbol_CB";
-            this.InsertSymbol_CB.Size = new System.Drawing.Size(158, 22);
-            this.InsertSymbol_CB.Text = "Counter Blast";
-            this.InsertSymbol_CB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // InsertSymbol_CC
-            // 
-            this.InsertSymbol_CC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.InsertSymbol_CC.Name = "InsertSymbol_CC";
-            this.InsertSymbol_CC.Size = new System.Drawing.Size(158, 22);
-            this.InsertSymbol_CC.Text = "Counter Charge";
-            this.InsertSymbol_CC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // InsertSymbol_SB
-            // 
-            this.InsertSymbol_SB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.InsertSymbol_SB.Name = "InsertSymbol_SB";
-            this.InsertSymbol_SB.Size = new System.Drawing.Size(158, 22);
-            this.InsertSymbol_SB.Text = "Soul Blast";
-            this.InsertSymbol_SB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // InsertSymbol_SC
-            // 
-            this.InsertSymbol_SC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.InsertSymbol_SC.Name = "InsertSymbol_SC";
-            this.InsertSymbol_SC.Size = new System.Drawing.Size(158, 22);
-            this.InsertSymbol_SC.Text = "Soul Charge";
-            this.InsertSymbol_SC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // SymbolMenu_CB
-            // 
-            this.SymbolMenu_CB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.SymbolMenu_CB.Name = "SymbolMenu_CB";
-            this.SymbolMenu_CB.Size = new System.Drawing.Size(158, 22);
-            this.SymbolMenu_CB.Text = "Counter Blast";
-            this.SymbolMenu_CB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // SymbolMenu_CC
-            // 
-            this.SymbolMenu_CC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.SymbolMenu_CC.Name = "SymbolMenu_CC";
-            this.SymbolMenu_CC.Size = new System.Drawing.Size(158, 22);
-            this.SymbolMenu_CC.Text = "Counter Charge";
-            this.SymbolMenu_CC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // SymbolMenu_SB
-            // 
-            this.SymbolMenu_SB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.SymbolMenu_SB.Name = "SymbolMenu_SB";
-            this.SymbolMenu_SB.Size = new System.Drawing.Size(158, 22);
-            this.SymbolMenu_SB.Text = "Soul Blast";
-            this.SymbolMenu_SB.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // SymbolMenu_SC
-            // 
-            this.SymbolMenu_SC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.SymbolMenu_SC.Name = "SymbolMenu_SC";
-            this.SymbolMenu_SC.Size = new System.Drawing.Size(158, 22);
-            this.SymbolMenu_SC.Text = "Soul Charge";
-            this.SymbolMenu_SC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
-            // 
-            // InsertSymbol_LeftBracket
-            // 
-            this.InsertSymbol_LeftBracket.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Left;
-            this.InsertSymbol_LeftBracket.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.InsertSymbol_LeftBracket.Name = "InsertSymbol_LeftBracket";
-            this.InsertSymbol_LeftBracket.Size = new System.Drawing.Size(158, 22);
-            this.InsertSymbol_LeftBracket.Text = "Left Bracket";
-            this.InsertSymbol_LeftBracket.Click += new System.EventHandler(this.SymbolMenu_BrackLeft_Click);
-            // 
-            // InsertSymbol_RightBracket
-            // 
-            this.InsertSymbol_RightBracket.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Right;
-            this.InsertSymbol_RightBracket.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.InsertSymbol_RightBracket.Name = "InsertSymbol_RightBracket";
-            this.InsertSymbol_RightBracket.Size = new System.Drawing.Size(158, 22);
-            this.InsertSymbol_RightBracket.Text = "Right Bracket";
-            this.InsertSymbol_RightBracket.Click += new System.EventHandler(this.SymbolMenu_BrackRight_Click);
-            // 
             // picBox_CardImage
             // 
             this.picBox_CardImage.BackColor = System.Drawing.Color.White;
@@ -813,24 +830,6 @@
             this.picBox_CardImage.Size = new System.Drawing.Size(349, 508);
             this.picBox_CardImage.TabIndex = 0;
             this.picBox_CardImage.TabStop = false;
-            // 
-            // SymbolMenu_BrackLeft
-            // 
-            this.SymbolMenu_BrackLeft.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Left;
-            this.SymbolMenu_BrackLeft.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.SymbolMenu_BrackLeft.Name = "SymbolMenu_BrackLeft";
-            this.SymbolMenu_BrackLeft.Size = new System.Drawing.Size(158, 22);
-            this.SymbolMenu_BrackLeft.Text = "Left Bracket";
-            this.SymbolMenu_BrackLeft.Click += new System.EventHandler(this.SymbolMenu_BrackLeft_Click);
-            // 
-            // SymbolMenu_BrackRight
-            // 
-            this.SymbolMenu_BrackRight.Image = global::CFVG_Card_Creator.Properties.Resources.Bracket_Right;
-            this.SymbolMenu_BrackRight.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.SymbolMenu_BrackRight.Name = "SymbolMenu_BrackRight";
-            this.SymbolMenu_BrackRight.Size = new System.Drawing.Size(158, 22);
-            this.SymbolMenu_BrackRight.Text = "Right Bracket";
-            this.SymbolMenu_BrackRight.Click += new System.EventHandler(this.SymbolMenu_BrackRight_Click);
             // 
             // Main
             // 
@@ -911,7 +910,6 @@
         private System.Windows.Forms.CheckBox checkbox_Effect;
         private System.Windows.Forms.ToolStripMenuItem menustripTool_Export;
         private System.Windows.Forms.ToolStripMenuItem ExportMenu_FanonTable;
-        private System.Windows.Forms.ToolStripMenuItem ExportMenu_SimDB;
         private System.Windows.Forms.ToolStripMenuItem menustripTool_Help;
         private System.Windows.Forms.ToolStripMenuItem HelpMenu_Help;
         private System.Windows.Forms.ToolStripMenuItem HelpMenu_About;
