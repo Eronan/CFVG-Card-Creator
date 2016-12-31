@@ -1,9 +1,0 @@
-Aether | Flag_Aether.png | #80E2E9 | #ffffff | #000000;
-Cray Elemental |  | #000000 | #ffffff | #000000 | #9E4C8A;
-Dark Zone | Flag_DZ.png | #471D43 | #ffffff | #000000;
-Dragon Empire | Flag_DE.png | #D90D0C | #ffffff | #000000;
-Magallanica | Flag_Magallanica.png | #434E9C | #ffffff | #000000;
-Star Gate | Flag_SG.png | #CDCBCA | #000000 | #ffffff;
-Touken Ranbu | Flag_TR.png | #000000 | #ffffff | #000000;
-United Sanctuary | Flag_US.png | #E7BA17 | #ffffff | #000000;
-Zoo | Flag_Zoo.png | #009241 | #ffffff | #000000;
