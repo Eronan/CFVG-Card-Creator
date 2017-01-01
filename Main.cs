@@ -50,6 +50,10 @@ namespace CFVG_Card_Creator
         {
             InitializeComponent();
 
+            tooltip.SetToolTip(button_Bold, "Bold");
+            tooltip.SetToolTip(button_Italics, "Italics");
+            tooltip.SetToolTip(button_Red, "Red");
+
             //Get Nation Colours
             using (StreamReader nationsReader = new StreamReader(@"Images/Nation/nations.txt"))
             {
@@ -535,7 +539,7 @@ namespace CFVG_Card_Creator
 
             //G-Guardian determines Power && Crit
             if (combobox_Border.Text != "G-Guardian") cardTableExport += "|power = " + numeric_Power.Value + Environment.NewLine;
-            else cardTableExport += "|critical = 0" + Environment.NewLine;
+            else cardTableExport += "|critical = nil" + Environment.NewLine;
 
             //Shield
             if (combobox_Shield.Text != "None") cardTableExport += "|shield = " + combobox_Shield.Text.Replace(" Shield", "");
@@ -561,8 +565,54 @@ namespace CFVG_Card_Creator
                 Clipboard.SetText(cardTableExport);
                 if (System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
                 {
-                    Process.Start("http://cardfightvanguardfanon.wikia.com/wiki/Cardfight!!_Vanguard_Fanon_Wiki");
+                    Process.Start("http://cardfightvanguardfanon.wikia.com/wiki/" + textbox_Name.Text);
                 }
+            }
+        }
+
+
+        private void button_Bold_Click(object sender, EventArgs e)
+        {
+            richtextbox_Effect.Focus();
+            if (richtextbox_Effect.ContainsFocus)
+            {
+                if (richtextbox_Effect.SelectedText.Length == 0)
+                {
+                    int selectindex = richtextbox_Effect.SelectionStart;
+                    richtextbox_Effect.SelectedText = "<b></b>";
+                    richtextbox_Effect.SelectionStart = selectindex + 3;
+                }
+                else richtextbox_Effect.SelectedText = "<b>" + richtextbox_Effect.SelectedText + "</b>";
+            }
+        }
+
+        private void button_Italics_Click(object sender, EventArgs e)
+        {
+            richtextbox_Effect.Focus();
+            if (richtextbox_Effect.ContainsFocus)
+            {
+                if (richtextbox_Effect.SelectedText.Length == 0)
+                {
+                    int selectindex = richtextbox_Effect.SelectionStart;
+                    richtextbox_Effect.SelectedText = "<i></i>";
+                    richtextbox_Effect.SelectionStart = selectindex + 3;
+                }
+                else richtextbox_Effect.SelectedText = "<i>" + richtextbox_Effect.SelectedText + "</i>";
+            }
+        }
+
+        private void button_Red_Click(object sender, EventArgs e)
+        {
+            richtextbox_Effect.Focus();
+            if (richtextbox_Effect.ContainsFocus)
+            {
+                if (richtextbox_Effect.SelectedText.Length == 0)
+                {
+                    int selectindex = richtextbox_Effect.SelectionStart;
+                    richtextbox_Effect.SelectedText = "<r></r>";
+                    richtextbox_Effect.SelectionStart = selectindex + 3;
+                }
+                else richtextbox_Effect.SelectedText = "<r>" + richtextbox_Effect.SelectedText + "</r>";
             }
         }
 
@@ -1133,18 +1183,30 @@ namespace CFVG_Card_Creator
         //About Dialog
         private static DialogResult ShowExportText(string name, string text)
         {
-            Size size = new Size(500, 180);
+            Size size = new Size(500, 400);
             Form About = new Form();
 
             About.FormBorderStyle = FormBorderStyle.FixedDialog;
             About.ClientSize = size;
             About.Text = name;
 
+            LinkLabel visitHomePage = new LinkLabel();
+            visitHomePage.AutoSize = true;
+            visitHomePage.Location = new System.Drawing.Point(5, 5);
+            visitHomePage.Name = "linkLabel1";
+            visitHomePage.Size = new System.Drawing.Size(238, 13);
+            visitHomePage.TabIndex = 6;
+            visitHomePage.TabStop = true;
+            visitHomePage.Text = "Visit the home page to learn how to create pages";
+            visitHomePage.Click += new EventHandler(homepageLink_Clicked);
+
+            About.Controls.Add(visitHomePage);
+
             RichTextBox TextBox = new RichTextBox();
             TextBox.ReadOnly = true;
             TextBox.BackColor = Color.White;
-            TextBox.Size = new Size(size.Width - 10, 140);
-            TextBox.Location = new Point(5, 5);
+            TextBox.Size = new Size(size.Width - 10, 342);
+            TextBox.Location = new Point(5, 23);
             TextBox.Text = text;
             TextBox.WordWrap = false;
 
@@ -1155,13 +1217,18 @@ namespace CFVG_Card_Creator
             okButton.Name = "okButton";
             okButton.Size = new Size(75, 23);
             okButton.Text = "Copy";
-            okButton.Location = new Point((size.Width / 2) - (okButton.Size.Width / 2), 147);
+            okButton.Location = new Point((size.Width / 2) - (okButton.Size.Width / 2), 367);
             About.Controls.Add(okButton);
 
             About.AcceptButton = okButton;
 
             DialogResult result = About.ShowDialog();
             return result;
+        }
+
+        public static void homepageLink_Clicked(object sender, EventArgs e)
+        {
+            Process.Start("http://cardfightvanguardfanon.wikia.com/wiki/Cardfight!!_Vanguard_Fanon_Wiki");
         }
     }
 }

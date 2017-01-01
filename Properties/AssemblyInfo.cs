@@ -32,10 +32,16 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.5")]
-[assembly: AssemblyFileVersion("0.5")]
+[assembly: AssemblyVersion("0.6")]
+[assembly: AssemblyFileVersion("0.6")]
 
-/*Changelog 31/12/2016 Ver 0.5
+/* Changelog 02/01/2016 Ver 0.6
+    Changed Redirect Link for Copy Button from Home Page to Card Page
+    Added Buttons for Bold, Italics and Red formatting
+    Fixed issue with text and Right Lenticular Bracket
+    Updated User Interface so that it is spread apart a bit more
+    Added complete tutorial for the Effect Text
+ * Changelog 31/12/2016 Ver 0.5
     Counter Blast, Counter Charge, Soul Blast, Soul Charge Icons added back in
     "Has Effect" is treated as if there was nothing in the textbox
     Fixed Symbol Menu Problem

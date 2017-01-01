@@ -33,6 +33,9 @@
             this.label_Code = new System.Windows.Forms.Label();
             this.textbox_Code = new System.Windows.Forms.TextBox();
             this.group_Edit = new System.Windows.Forms.GroupBox();
+            this.button_Red = new System.Windows.Forms.Button();
+            this.button_Italics = new System.Windows.Forms.Button();
+            this.button_Bold = new System.Windows.Forms.Button();
             this.checkbox_SP = new System.Windows.Forms.CheckBox();
             this.textbox_Design = new System.Windows.Forms.TextBox();
             this.label_Design = new System.Windows.Forms.Label();
@@ -103,6 +106,7 @@
             this.saveData = new System.Windows.Forms.SaveFileDialog();
             this.openData = new System.Windows.Forms.OpenFileDialog();
             this.picBox_CardImage = new System.Windows.Forms.PictureBox();
+            this.tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.group_Edit.SuspendLayout();
             this.group_Legion.SuspendLayout();
             this.InsertSymbol.SuspendLayout();
@@ -131,6 +135,9 @@
             // 
             // group_Edit
             // 
+            this.group_Edit.Controls.Add(this.button_Red);
+            this.group_Edit.Controls.Add(this.button_Italics);
+            this.group_Edit.Controls.Add(this.button_Bold);
             this.group_Edit.Controls.Add(this.checkbox_SP);
             this.group_Edit.Controls.Add(this.textbox_Design);
             this.group_Edit.Controls.Add(this.label_Design);
@@ -168,15 +175,52 @@
             this.group_Edit.Controls.Add(this.label_Code);
             this.group_Edit.Location = new System.Drawing.Point(367, 27);
             this.group_Edit.Name = "group_Edit";
-            this.group_Edit.Size = new System.Drawing.Size(439, 481);
+            this.group_Edit.Size = new System.Drawing.Size(439, 520);
             this.group_Edit.TabIndex = 3;
             this.group_Edit.TabStop = false;
             this.group_Edit.Text = "Edit";
             // 
+            // button_Red
+            // 
+            this.button_Red.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Red.ForeColor = System.Drawing.Color.Red;
+            this.button_Red.Location = new System.Drawing.Point(412, 250);
+            this.button_Red.Name = "button_Red";
+            this.button_Red.Size = new System.Drawing.Size(21, 23);
+            this.button_Red.TabIndex = 39;
+            this.button_Red.TabStop = false;
+            this.button_Red.Text = "R";
+            this.button_Red.UseVisualStyleBackColor = true;
+            this.button_Red.Click += new System.EventHandler(this.button_Red_Click);
+            // 
+            // button_Italics
+            // 
+            this.button_Italics.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Italics.Location = new System.Drawing.Point(388, 250);
+            this.button_Italics.Name = "button_Italics";
+            this.button_Italics.Size = new System.Drawing.Size(21, 23);
+            this.button_Italics.TabIndex = 38;
+            this.button_Italics.TabStop = false;
+            this.button_Italics.Text = "I";
+            this.button_Italics.UseVisualStyleBackColor = true;
+            this.button_Italics.Click += new System.EventHandler(this.button_Italics_Click);
+            // 
+            // button_Bold
+            // 
+            this.button_Bold.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Bold.Location = new System.Drawing.Point(361, 250);
+            this.button_Bold.Name = "button_Bold";
+            this.button_Bold.Size = new System.Drawing.Size(21, 23);
+            this.button_Bold.TabIndex = 37;
+            this.button_Bold.TabStop = false;
+            this.button_Bold.Text = "B";
+            this.button_Bold.UseVisualStyleBackColor = true;
+            this.button_Bold.Click += new System.EventHandler(this.button_Bold_Click);
+            // 
             // checkbox_SP
             // 
             this.checkbox_SP.AutoSize = true;
-            this.checkbox_SP.Location = new System.Drawing.Point(11, 452);
+            this.checkbox_SP.Location = new System.Drawing.Point(11, 482);
             this.checkbox_SP.Name = "checkbox_SP";
             this.checkbox_SP.Size = new System.Drawing.Size(85, 17);
             this.checkbox_SP.TabIndex = 33;
@@ -186,19 +230,19 @@
             // 
             // textbox_Design
             // 
-            this.textbox_Design.Location = new System.Drawing.Point(270, 208);
+            this.textbox_Design.Location = new System.Drawing.Point(65, 214);
             this.textbox_Design.MaxLength = 15;
             this.textbox_Design.Name = "textbox_Design";
             this.textbox_Design.Size = new System.Drawing.Size(163, 20);
-            this.textbox_Design.TabIndex = 25;
+            this.textbox_Design.TabIndex = 24;
             // 
             // label_Design
             // 
             this.label_Design.AutoSize = true;
-            this.label_Design.Location = new System.Drawing.Point(213, 211);
+            this.label_Design.Location = new System.Drawing.Point(8, 217);
             this.label_Design.Name = "label_Design";
             this.label_Design.Size = new System.Drawing.Size(51, 13);
-            this.label_Design.TabIndex = 24;
+            this.label_Design.TabIndex = 23;
             this.label_Design.Text = "DESIGN:";
             // 
             // button_CardArt
@@ -215,10 +259,10 @@
             // 
             this.group_Legion.Controls.Add(this.checkbox_LegMate);
             this.group_Legion.Controls.Add(this.checkbox_LegLeader);
-            this.group_Legion.Location = new System.Drawing.Point(90, 181);
+            this.group_Legion.Location = new System.Drawing.Point(323, 181);
             this.group_Legion.Name = "group_Legion";
-            this.group_Legion.Size = new System.Drawing.Size(110, 57);
-            this.group_Legion.TabIndex = 21;
+            this.group_Legion.Size = new System.Drawing.Size(110, 60);
+            this.group_Legion.TabIndex = 25;
             this.group_Legion.TabStop = false;
             this.group_Legion.Text = "Legion";
             // 
@@ -247,7 +291,7 @@
             this.checkbox_Effect.AutoSize = true;
             this.checkbox_Effect.Checked = true;
             this.checkbox_Effect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkbox_Effect.Location = new System.Drawing.Point(46, 245);
+            this.checkbox_Effect.Location = new System.Drawing.Point(45, 256);
             this.checkbox_Effect.Name = "checkbox_Effect";
             this.checkbox_Effect.Size = new System.Drawing.Size(76, 17);
             this.checkbox_Effect.TabIndex = 27;
@@ -257,7 +301,7 @@
             // 
             // button_Reload
             // 
-            this.button_Reload.Location = new System.Drawing.Point(358, 452);
+            this.button_Reload.Location = new System.Drawing.Point(358, 482);
             this.button_Reload.Name = "button_Reload";
             this.button_Reload.Size = new System.Drawing.Size(75, 23);
             this.button_Reload.TabIndex = 36;
@@ -267,7 +311,7 @@
             // 
             // button_Preview
             // 
-            this.button_Preview.Location = new System.Drawing.Point(196, 452);
+            this.button_Preview.Location = new System.Drawing.Point(196, 482);
             this.button_Preview.Name = "button_Preview";
             this.button_Preview.Size = new System.Drawing.Size(75, 23);
             this.button_Preview.TabIndex = 34;
@@ -277,7 +321,7 @@
             // 
             // button_Save
             // 
-            this.button_Save.Location = new System.Drawing.Point(277, 452);
+            this.button_Save.Location = new System.Drawing.Point(277, 482);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
             this.button_Save.TabIndex = 35;
@@ -287,16 +331,16 @@
             // 
             // richtextbox_Flavour
             // 
-            this.richtextbox_Flavour.Location = new System.Drawing.Point(6, 405);
+            this.richtextbox_Flavour.Location = new System.Drawing.Point(6, 421);
             this.richtextbox_Flavour.Name = "richtextbox_Flavour";
-            this.richtextbox_Flavour.Size = new System.Drawing.Size(425, 41);
+            this.richtextbox_Flavour.Size = new System.Drawing.Size(427, 55);
             this.richtextbox_Flavour.TabIndex = 32;
             this.richtextbox_Flavour.Text = "";
             // 
             // label_Flavour
             // 
             this.label_Flavour.AutoSize = true;
-            this.label_Flavour.Location = new System.Drawing.Point(6, 389);
+            this.label_Flavour.Location = new System.Drawing.Point(6, 405);
             this.label_Flavour.Name = "label_Flavour";
             this.label_Flavour.Size = new System.Drawing.Size(63, 13);
             this.label_Flavour.TabIndex = 31;
@@ -306,7 +350,7 @@
             // 
             this.richtextbox_Effect.ContextMenuStrip = this.InsertSymbol;
             this.richtextbox_Effect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richtextbox_Effect.Location = new System.Drawing.Point(6, 263);
+            this.richtextbox_Effect.Location = new System.Drawing.Point(6, 279);
             this.richtextbox_Effect.Name = "richtextbox_Effect";
             this.richtextbox_Effect.Size = new System.Drawing.Size(427, 123);
             this.richtextbox_Effect.TabIndex = 30;
@@ -383,7 +427,7 @@
             // label_Effect
             // 
             this.label_Effect.AutoSize = true;
-            this.label_Effect.Location = new System.Drawing.Point(7, 247);
+            this.label_Effect.Location = new System.Drawing.Point(6, 258);
             this.label_Effect.Name = "label_Effect";
             this.label_Effect.Size = new System.Drawing.Size(38, 13);
             this.label_Effect.TabIndex = 26;
@@ -391,19 +435,19 @@
             // 
             // textbox_Illust
             // 
-            this.textbox_Illust.Location = new System.Drawing.Point(270, 182);
+            this.textbox_Illust.Location = new System.Drawing.Point(59, 185);
             this.textbox_Illust.MaxLength = 15;
             this.textbox_Illust.Name = "textbox_Illust";
-            this.textbox_Illust.Size = new System.Drawing.Size(163, 20);
-            this.textbox_Illust.TabIndex = 23;
+            this.textbox_Illust.Size = new System.Drawing.Size(169, 20);
+            this.textbox_Illust.TabIndex = 22;
             // 
             // label_Illust
             // 
             this.label_Illust.AutoSize = true;
-            this.label_Illust.Location = new System.Drawing.Point(213, 185);
+            this.label_Illust.Location = new System.Drawing.Point(6, 188);
             this.label_Illust.Name = "label_Illust";
             this.label_Illust.Size = new System.Drawing.Size(47, 13);
-            this.label_Illust.TabIndex = 22;
+            this.label_Illust.TabIndex = 21;
             this.label_Illust.Text = "ILLUST:";
             // 
             // textbox_Race
@@ -763,14 +807,14 @@
             // ExportMenu_FanonTable
             // 
             this.ExportMenu_FanonTable.Name = "ExportMenu_FanonTable";
-            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(163, 22);
-            this.ExportMenu_FanonTable.Text = "Fanon CardTable";
+            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(159, 22);
+            this.ExportMenu_FanonTable.Text = "Fanon Template";
             this.ExportMenu_FanonTable.Click += new System.EventHandler(this.ExportMenu_FanonTable_Click);
             // 
             // ExportMenu_Image
             // 
             this.ExportMenu_Image.Name = "ExportMenu_Image";
-            this.ExportMenu_Image.Size = new System.Drawing.Size(163, 22);
+            this.ExportMenu_Image.Size = new System.Drawing.Size(159, 22);
             this.ExportMenu_Image.Text = "Image";
             this.ExportMenu_Image.Click += new System.EventHandler(this.button_SaveImage_Click);
             // 
@@ -799,7 +843,7 @@
             // 
             // button_SaveImage
             // 
-            this.button_SaveImage.Location = new System.Drawing.Point(373, 514);
+            this.button_SaveImage.Location = new System.Drawing.Point(286, 543);
             this.button_SaveImage.Name = "button_SaveImage";
             this.button_SaveImage.Size = new System.Drawing.Size(75, 23);
             this.button_SaveImage.TabIndex = 5;
@@ -831,19 +875,23 @@
             this.picBox_CardImage.TabIndex = 0;
             this.picBox_CardImage.TabStop = false;
             // 
+            // tooltip
+            // 
+            this.tooltip.BackColor = System.Drawing.SystemColors.HighlightText;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 549);
+            this.ClientSize = new System.Drawing.Size(818, 575);
             this.Controls.Add(this.button_SaveImage);
             this.Controls.Add(this.group_Edit);
             this.Controls.Add(this.picBox_CardImage);
             this.Controls.Add(this.MenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip;
-            this.MaximumSize = new System.Drawing.Size(834, 588);
-            this.MinimumSize = new System.Drawing.Size(834, 588);
+            this.MaximumSize = new System.Drawing.Size(834, 614);
+            this.MinimumSize = new System.Drawing.Size(834, 614);
             this.Name = "Main";
             this.Text = "Cardfight Vanguard Card Creator";
             this.Load += new System.EventHandler(this.Main_Load);
@@ -937,6 +985,10 @@
         private System.Windows.Forms.ToolStripMenuItem InsertSymbol_CC;
         private System.Windows.Forms.ToolStripMenuItem InsertSymbol_SB;
         private System.Windows.Forms.ToolStripMenuItem InsertSymbol_SC;
+        private System.Windows.Forms.Button button_Bold;
+        private System.Windows.Forms.Button button_Italics;
+        private System.Windows.Forms.Button button_Red;
+        private System.Windows.Forms.ToolTip tooltip;
     }
 }
 
