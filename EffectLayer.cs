@@ -119,19 +119,7 @@ namespace CFVG_Card_Creator
                             TextLayer temporary = new TextLayer(newInput, new Font(textFont, 11.5f, style), Color.Black, 0, 0, StringAlignment.Near);
                             width += temporary.width + 3;
 
-                            if (!measureItalics && !measureBold)
-                            {
-                                //Fix Spacing
-                                switch (newInput.Last())
-                                {
-                                    case 'l':
-                                    case '1':
-                                    case 'd':
-                                    case 'n':
-                                        width += 1;
-                                        break;
-                                }
-                            }
+                            width += LastCharacter(newInput.Last(), measureItalics);
                         }
                         else if (newInput.Length == 0)
                         {
@@ -258,83 +246,9 @@ namespace CFVG_Card_Creator
 
                             currentX += effect_Text.Last().width + 3 - (italics ? 1 : 0) - (endBold || endItalics ? 2 : 0);
 
-                            if (!italics)
-                            {
-                                //Fix Spacing
-                                switch (newInput.Last())
-                                {
-                                    case 'w':
-                                    case 'Y':
-                                        currentX--;
-                                        break;
-                                    case 'l':
-                                    case 'i':
-                                    case '1':
-                                    case '.':
-                                    case 'r':
-                                    case '!':
-                                    case 'E':
-                                    case 'I':
-                                    case 'U':
-                                    case '|':
-                                    case 'D':
-                                    case 'F':
-                                    case 'G':
-                                    case 'H':
-                                    case 'J':
-                                    case 'K':
-                                    case 'L':
-                                    case '0':
-                                    case 'd':
-                                    case 'N':
-                                    case 'B':
-                                        currentX++;
-                                        break;
-                                }
-                            }
-                            else
-                            {
-                                switch (newInput.Last())
-                                {
-                                    case '2':
-                                    case '5':
-                                    case '7':
-                                    case 'y':
-                                    case 'F':
-                                    case 'X':
-                                    case 'd':
-                                    case 'g':
-                                    case 'j':
-                                        currentX--;
-                                        break;
-                                    case '`':
-                                    case '1':
-                                    case 'q':
-                                    case 'e':
-                                    case 'u':
-                                    case '\\':
-                                    case 'h':
-                                    case 'c':
-                                    case 'v':
-                                    case 'b':
-                                    case ',':
-                                    case '.':
-                                    case '~':
-                                    case '%':
-                                    case '^':
-                                    case '*':
-                                    case 'W':
-                                    case 'T':
-                                    case 'U':
-                                    case '|':
-                                    case 'A':
-                                    case 'L':
-                                    case 'V':
-                                    case '>':
-                                        currentX++;
-                                        break;
-                                }
-                            }
+                            //Change currentX based on last character
+                            currentX += LastCharacter(newInput.Last(), italics);
+                            
                         }
                         else if (newInput.Length == 0)
                         {
@@ -372,6 +286,84 @@ namespace CFVG_Card_Creator
             {
                 spec.DrawImage(g);
             }
+        }
+
+        public int LastCharacter(char lastChar, bool italics)
+        {
+            if (!italics)
+            {
+                //Fix Spacing
+                switch (lastChar)
+                {
+                    case 'w':
+                    case 'Y':
+                        return -1;
+                    case 'l':
+                    case 'i':
+                    case '1':
+                    case '.':
+                    case 'r':
+                    case '!':
+                    case 'E':
+                    case 'I':
+                    case 'U':
+                    case '|':
+                    case 'D':
+                    case 'F':
+                    case 'G':
+                    case 'H':
+                    case 'J':
+                    case 'K':
+                    case 'L':
+                    case '0':
+                    case 'd':
+                    case 'N':
+                    case 'B':
+                        return 1;
+                }
+            }
+            else
+            {
+                switch (lastChar)
+                {
+                    case '2':
+                    case '5':
+                    case '7':
+                    case 'y':
+                    case 'F':
+                    case 'X':
+                    case 'd':
+                    case 'g':
+                    case 'j':
+                        return -1;
+                    case '`':
+                    case '1':
+                    case 'q':
+                    case 'e':
+                    case 'u':
+                    case '\\':
+                    case 'h':
+                    case 'c':
+                    case 'v':
+                    case 'b':
+                    case ',':
+                    case '.':
+                    case '~':
+                    case '%':
+                    case '^':
+                    case '*':
+                    case 'W':
+                    case 'T':
+                    case 'U':
+                    case '|':
+                    case 'A':
+                    case 'L':
+                    case 'V':
+                    case '>':
+                        return 1;
+                }
+            }
+            return 0;
         }
     }
 }
