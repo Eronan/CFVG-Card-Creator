@@ -119,15 +119,18 @@ namespace CFVG_Card_Creator
                             TextLayer temporary = new TextLayer(newInput, new Font(textFont, 11.5f, style), Color.Black, 0, 0, StringAlignment.Near);
                             width += temporary.width + 3;
 
-                            //Fix Spacing
-                            switch (newInput.Last())
+                            if (!measureItalics && !measureBold)
                             {
-                                case 'l':
-                                case '1':
-                                case 'd':
-                                case 'n':
-                                    width += 1;
-                                    break;
+                                //Fix Spacing
+                                switch (newInput.Last())
+                                {
+                                    case 'l':
+                                    case '1':
+                                    case 'd':
+                                    case 'n':
+                                        width += 1;
+                                        break;
+                                }
                             }
                         }
                         else if (newInput.Length == 0)
@@ -232,7 +235,7 @@ namespace CFVG_Card_Creator
                                     if (specialIcons.TryGetValue(mainKey, out getBitmap))
                                     {
                                         //Mix of Image and Text Layer
-                                        effect_Special.Add(new SpecialLayer(getBitmap, key.Substring(startText + 1, endText - startText - 1), new Font(textFont, 11.09f, FontStyle.Regular), textColour, currentX + 1, (int)(currentY + (TEXTHEIGHT - getBitmap.Height) / 2)));
+                                        effect_Special.Add(new SpecialLayer(getBitmap, key.Substring(startText + 1, endText - startText - 1), new Font(textFont, 11.09f, FontStyle.Regular), textColour, currentX + 2, (int)(currentY + (TEXTHEIGHT - getBitmap.Height) / 2)));
                                         currentX += getBitmap.Width;
                                     }
                                 }
@@ -253,17 +256,84 @@ namespace CFVG_Card_Creator
 
                             effect_Text.Add(new TextLayer(newInput, new Font(textFont, 11.5f, style), textColour, currentX, (int)(currentY + 2.5), StringAlignment.Near));
 
-                            currentX += effect_Text.Last().width + 3 - (italics ? 1 : 0);
+                            currentX += effect_Text.Last().width + 3 - (italics ? 1 : 0) - (endBold || endItalics ? 2 : 0);
 
-                            //Fix Spacing
-                            switch (newInput.Last())
+                            if (!italics)
                             {
-                                case 'l':
-                                case '1':
-                                case 'd':
-                                case 'n':
-                                    currentX += 1;
-                                    break;
+                                //Fix Spacing
+                                switch (newInput.Last())
+                                {
+                                    case 'w':
+                                    case 'Y':
+                                        currentX--;
+                                        break;
+                                    case 'l':
+                                    case 'i':
+                                    case '1':
+                                    case '.':
+                                    case 'r':
+                                    case '!':
+                                    case 'E':
+                                    case 'I':
+                                    case 'U':
+                                    case '|':
+                                    case 'D':
+                                    case 'F':
+                                    case 'G':
+                                    case 'H':
+                                    case 'J':
+                                    case 'K':
+                                    case 'L':
+                                    case '0':
+                                    case 'd':
+                                    case 'N':
+                                    case 'B':
+                                        currentX++;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                switch (newInput.Last())
+                                {
+                                    case '2':
+                                    case '5':
+                                    case '7':
+                                    case 'y':
+                                    case 'F':
+                                    case 'X':
+                                    case 'd':
+                                    case 'g':
+                                    case 'j':
+                                        currentX--;
+                                        break;
+                                    case '`':
+                                    case '1':
+                                    case 'q':
+                                    case 'e':
+                                    case 'u':
+                                    case '\\':
+                                    case 'h':
+                                    case 'c':
+                                    case 'v':
+                                    case 'b':
+                                    case ',':
+                                    case '.':
+                                    case '~':
+                                    case '%':
+                                    case '^':
+                                    case '*':
+                                    case 'W':
+                                    case 'T':
+                                    case 'U':
+                                    case '|':
+                                    case 'A':
+                                    case 'L':
+                                    case 'V':
+                                    case '>':
+                                        currentX++;
+                                        break;
+                                }
                             }
                         }
                         else if (newInput.Length == 0)

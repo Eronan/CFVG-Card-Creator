@@ -35,7 +35,7 @@ namespace CFVG_Card_Creator
         List<ImageLayer> Layers_Images = new List<ImageLayer>();
         List<TextLayer> Layers_Text = new List<TextLayer>();
         EffectLayer Layers_Effect = new EffectLayer();
-        
+
 
         //Other
         string filePath = null;
@@ -118,7 +118,7 @@ namespace CFVG_Card_Creator
             {
                 reader.MoveToContent();
 
-                while(reader.Read())
+                while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
@@ -201,11 +201,11 @@ namespace CFVG_Card_Creator
                 //InsertSymbol Tool
                 ToolStripMenuItem ContextTool = new ToolStripMenuItem(item.Key, item.Value, SymbolMenu_Item_Click, "InsertSymbol_" + item.Key);
                 ContextTool.ImageScaling = ToolStripItemImageScaling.None;
-                InsertSymbol.Items.Add(ContextTool);
+                TextboxMenu_Insert.DropDownItems.Add(ContextTool);
             }
 
             EditMenu_Symbols.DropDown.MaximumSize = new Size(EditMenu_Symbols.DropDown.Width, 600);
-            InsertSymbol.MaximumSize = new Size(InsertSymbol.Width, 300);
+            TextboxMenu_Insert.DropDown.MaximumSize = new Size(TextboxMenu_Insert.DropDown.Width, 300);
         }
 
         private void FileMenu_New_Click(object sender, EventArgs e)
@@ -480,7 +480,7 @@ namespace CFVG_Card_Creator
             //Add in CB, CC, SB or SC Texts
             if (!richtextbox_Effect.ContainsFocus) return;
             ToolStripMenuItem itemSender = sender as ToolStripMenuItem;
-            switch( itemSender.Text)
+            switch (itemSender.Text)
             {
                 case "Counter Blast":
                     richtextbox_Effect.SelectedText = "_{CB()}_";
@@ -537,12 +537,16 @@ namespace CFVG_Card_Creator
             //Grade
             cardTableExport += "|grade = " + numeric_Grade.Value + Environment.NewLine;
 
+            //Skillicon
+            if (combobox_Border.Text == "Stride") cardTableExport += "|skillicon = triple" + Environment.NewLine;
+            else if (combobox_Border.Text == "G-Guardian") cardTableExport += "|skillicon = none" + Environment.NewLine;
+
             //G-Guardian determines Power && Crit
             if (combobox_Border.Text != "G-Guardian") cardTableExport += "|power = " + numeric_Power.Value + Environment.NewLine;
             else cardTableExport += "|critical = nil" + Environment.NewLine;
 
             //Shield
-            if (combobox_Shield.Text != "None") cardTableExport += "|shield = " + combobox_Shield.Text.Replace(" Shield", "");
+            if (combobox_Shield.Text != "None") cardTableExport += "|shield = " + combobox_Shield.Text.Replace(" Shield", "") + Environment.NewLine;
 
             //Race(s): If there are multiple races signified by '/' put in race and race2 parameters
             string[] races = textbox_Race.Text.Split('/');
@@ -559,7 +563,18 @@ namespace CFVG_Card_Creator
             //End Template
             cardTableExport += "}}";
 
-            DialogResult copy = ShowExportText("CardTable", cardTableExport);
+            //Create Label
+            LinkLabel visitHomePage = new LinkLabel();
+            visitHomePage.AutoSize = true;
+            visitHomePage.Location = new System.Drawing.Point(5, 5);
+            visitHomePage.Name = "linkLabel1";
+            visitHomePage.Size = new System.Drawing.Size(238, 13);
+            visitHomePage.TabIndex = 0;
+            visitHomePage.TabStop = true;
+            visitHomePage.Text = "Visit the home page to learn how to create pages";
+            visitHomePage.Click += new EventHandler(homepageLink_Clicked);
+
+            DialogResult copy = ShowExportText("Card Table", visitHomePage, cardTableExport);
             if (copy == DialogResult.OK)
             {
                 Clipboard.SetText(cardTableExport);
@@ -570,6 +585,50 @@ namespace CFVG_Card_Creator
             }
         }
 
+        private void ExportMenu_ReadableText_Click(object sender, EventArgs e)
+        {
+
+            //Name & Grade
+            string text = textbox_Name.Text + Environment.NewLine +
+                "Grade " + numeric_Grade.Value;
+
+            //Trigger
+            if (combobox_Trigger.Text != "None") text += "/" + combobox_Trigger.Text;
+            text += Environment.NewLine;
+
+            //Power
+            if (combobox_Border.Text != "G-Guardian") text += "G-Guardian";
+            else text += numeric_Power.Value.ToString();
+
+            //Shield
+            if (combobox_Shield.Text != "None") text += "/" + combobox_Shield.Text.Replace("None", "");
+            text += Environment.NewLine;
+
+            //Clan & Race
+            text += textbox_Clan.Text + "/" + textbox_Race.Text + Environment.NewLine;
+
+            //Effect
+            text += "[Insert Your Effect Here]";
+
+            Label label_Text = new Label();
+            label_Text.Text = "Developers:";
+            label_Text.Font = SystemFonts.DialogFont;
+            label_Text.AutoSize = true;
+            label_Text.Location = new System.Drawing.Point(5, 5);
+            label_Text.Name = "label_Text";
+            label_Text.Size = new System.Drawing.Size(238, 13);
+            label_Text.TabIndex = 0;
+            label_Text.TabStop = true;
+            label_Text.Text = "Share your card's information in text format";
+
+            DialogResult copy = ShowExportText("Readable Text", label_Text, text);
+            if (copy==DialogResult.OK) Clipboard.SetText(text);
+        }
+
+        public static void homepageLink_Clicked(object sender, EventArgs e)
+        {
+            Process.Start("http://cardfightvanguardfanon.wikia.com/wiki/Cardfight!!_Vanguard_Fanon_Wiki");
+        }
 
         private void button_Bold_Click(object sender, EventArgs e)
         {
@@ -630,6 +689,33 @@ namespace CFVG_Card_Creator
             richtextbox_Effect.Text = richtextbox_Effect.Text.Replace("[[", "【");
             richtextbox_Effect.Text = richtextbox_Effect.Text.Replace("]]", "】");
             richtextbox_Effect.SelectionStart = selectedIndex - originalLength + richtextbox_Effect.TextLength;
+        }
+
+        private void TextboxMenu_Spacing_Click(object sender, EventArgs e)
+        {
+            if (!richtextbox_Effect.Focused) return;
+            int sIndex = richtextbox_Effect.SelectionStart;
+            int sLength = richtextbox_Effect.SelectionLength;
+
+            char[] text = richtextbox_Effect.SelectedText.ToCharArray();
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                switch (text[i])
+                {
+                    case ' ':
+                        text[i] = '_';
+                        break;
+                    case '_':
+                        text[i] = ' ';
+                        break;
+                }
+            }
+
+            richtextbox_Effect.SelectedText = new string(text);
+
+            richtextbox_Effect.SelectionStart = sIndex;
+            richtextbox_Effect.SelectionLength = sLength;
         }
 
         private void checkbox_SP_CheckedChanged(object sender, EventArgs e)
@@ -1181,7 +1267,7 @@ namespace CFVG_Card_Creator
         }
 
         //About Dialog
-        private static DialogResult ShowExportText(string name, string text)
+        private static DialogResult ShowExportText(string name, LinkLabel label, string text)
         {
             Size size = new Size(500, 400);
             Form About = new Form();
@@ -1190,17 +1276,7 @@ namespace CFVG_Card_Creator
             About.ClientSize = size;
             About.Text = name;
 
-            LinkLabel visitHomePage = new LinkLabel();
-            visitHomePage.AutoSize = true;
-            visitHomePage.Location = new System.Drawing.Point(5, 5);
-            visitHomePage.Name = "linkLabel1";
-            visitHomePage.Size = new System.Drawing.Size(238, 13);
-            visitHomePage.TabIndex = 6;
-            visitHomePage.TabStop = true;
-            visitHomePage.Text = "Visit the home page to learn how to create pages";
-            visitHomePage.Click += new EventHandler(homepageLink_Clicked);
-
-            About.Controls.Add(visitHomePage);
+            About.Controls.Add(label);
 
             RichTextBox TextBox = new RichTextBox();
             TextBox.ReadOnly = true;
@@ -1226,9 +1302,42 @@ namespace CFVG_Card_Creator
             return result;
         }
 
-        public static void homepageLink_Clicked(object sender, EventArgs e)
+        private static DialogResult ShowExportText(string name, Label label, string text)
         {
-            Process.Start("http://cardfightvanguardfanon.wikia.com/wiki/Cardfight!!_Vanguard_Fanon_Wiki");
+            Size size = new Size(500, 400);
+            Form About = new Form();
+
+            About.FormBorderStyle = FormBorderStyle.FixedDialog;
+            About.ClientSize = size;
+            About.Text = name;
+
+            //Add Label
+            About.Controls.Add(label);
+
+            RichTextBox TextBox = new RichTextBox();
+            TextBox.ReadOnly = true;
+            TextBox.BackColor = Color.White;
+            TextBox.Size = new Size(size.Width - 10, 342);
+            TextBox.Location = new Point(5, 23);
+            TextBox.Text = text;
+            TextBox.WordWrap = false;
+
+            About.Controls.Add(TextBox);
+
+            Button okButton = new Button();
+            okButton.DialogResult = DialogResult.OK;
+            okButton.Name = "okButton";
+            okButton.Size = new Size(75, 23);
+            okButton.Text = "Copy";
+            okButton.Location = new Point((size.Width / 2) - (okButton.Size.Width / 2), 367);
+            About.Controls.Add(okButton);
+
+            About.AcceptButton = okButton;
+
+            DialogResult result = About.ShowDialog();
+            return result;
         }
+
+        
     }
 }

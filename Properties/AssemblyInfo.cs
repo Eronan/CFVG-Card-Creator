@@ -32,10 +32,16 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.6")]
-[assembly: AssemblyFileVersion("0.6")]
+[assembly: AssemblyVersion("0.7")]
+[assembly: AssemblyFileVersion("0.7")]
 
-/* Changelog 02/01/2016 Ver 0.6
+/* Changelog 18/01/2016 Ver 0.7
+    Added an "Invert Spacing" Function
+    Fixed Export CardTable Function
+    Changed the Menu for the right click of the textbox
+    Export Card Information as Text
+    Character Spacing Re-Fixed
+ * Changelog 02/01/2016 Ver 0.6
     Changed Redirect Link for Copy Button from Home Page to Card Page
     Added Buttons for Bold, Italics and Red formatting
     Fixed issue with text and Right Lenticular Bracket

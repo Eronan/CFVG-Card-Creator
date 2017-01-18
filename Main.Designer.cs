@@ -50,13 +50,15 @@
             this.richtextbox_Flavour = new System.Windows.Forms.RichTextBox();
             this.label_Flavour = new System.Windows.Forms.Label();
             this.richtextbox_Effect = new System.Windows.Forms.RichTextBox();
-            this.InsertSymbol = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TextBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TextboxMenu_Insert = new System.Windows.Forms.ToolStripMenuItem();
             this.InsertSymbol_LeftBracket = new System.Windows.Forms.ToolStripMenuItem();
             this.InsertSymbol_RightBracket = new System.Windows.Forms.ToolStripMenuItem();
             this.InsertSymbol_CB = new System.Windows.Forms.ToolStripMenuItem();
             this.InsertSymbol_CC = new System.Windows.Forms.ToolStripMenuItem();
             this.InsertSymbol_SB = new System.Windows.Forms.ToolStripMenuItem();
             this.InsertSymbol_SC = new System.Windows.Forms.ToolStripMenuItem();
+            this.TextboxMenu_Spacing = new System.Windows.Forms.ToolStripMenuItem();
             this.label_Effect = new System.Windows.Forms.Label();
             this.textbox_Illust = new System.Windows.Forms.TextBox();
             this.label_Illust = new System.Windows.Forms.Label();
@@ -98,6 +100,7 @@
             this.menustripTool_Export = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportMenu_FanonTable = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportMenu_Image = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportMenu_ReadableText = new System.Windows.Forms.ToolStripMenuItem();
             this.menustripTool_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu_About = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,11 +108,11 @@
             this.saveImage = new System.Windows.Forms.SaveFileDialog();
             this.saveData = new System.Windows.Forms.SaveFileDialog();
             this.openData = new System.Windows.Forms.OpenFileDialog();
-            this.picBox_CardImage = new System.Windows.Forms.PictureBox();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.picBox_CardImage = new System.Windows.Forms.PictureBox();
             this.group_Edit.SuspendLayout();
             this.group_Legion.SuspendLayout();
-            this.InsertSymbol.SuspendLayout();
+            this.TextBoxMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_Power)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_Grade)).BeginInit();
             this.MenuStrip.SuspendLayout();
@@ -348,7 +351,7 @@
             // 
             // richtextbox_Effect
             // 
-            this.richtextbox_Effect.ContextMenuStrip = this.InsertSymbol;
+            this.richtextbox_Effect.ContextMenuStrip = this.TextBoxMenu;
             this.richtextbox_Effect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richtextbox_Effect.Location = new System.Drawing.Point(6, 279);
             this.richtextbox_Effect.Name = "richtextbox_Effect";
@@ -358,17 +361,26 @@
             this.richtextbox_Effect.WordWrap = false;
             this.richtextbox_Effect.TextChanged += new System.EventHandler(this.richtextbox_Effect_TextChanged);
             // 
-            // InsertSymbol
+            // TextBoxMenu
             // 
-            this.InsertSymbol.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TextBoxMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TextboxMenu_Insert,
+            this.TextboxMenu_Spacing});
+            this.TextBoxMenu.Name = "InsertSymbol";
+            this.TextBoxMenu.Size = new System.Drawing.Size(153, 70);
+            // 
+            // TextboxMenu_Insert
+            // 
+            this.TextboxMenu_Insert.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.InsertSymbol_LeftBracket,
             this.InsertSymbol_RightBracket,
             this.InsertSymbol_CB,
             this.InsertSymbol_CC,
             this.InsertSymbol_SB,
             this.InsertSymbol_SC});
-            this.InsertSymbol.Name = "InsertSymbol";
-            this.InsertSymbol.Size = new System.Drawing.Size(170, 136);
+            this.TextboxMenu_Insert.Name = "TextboxMenu_Insert";
+            this.TextboxMenu_Insert.Size = new System.Drawing.Size(152, 22);
+            this.TextboxMenu_Insert.Text = "Insert Symbol";
             // 
             // InsertSymbol_LeftBracket
             // 
@@ -423,6 +435,13 @@
             this.InsertSymbol_SC.Size = new System.Drawing.Size(169, 22);
             this.InsertSymbol_SC.Text = "Soul Charge";
             this.InsertSymbol_SC.Click += new System.EventHandler(this.SymbolMenu_TextIcon_Clicked);
+            // 
+            // TextboxMenu_Spacing
+            // 
+            this.TextboxMenu_Spacing.Name = "TextboxMenu_Spacing";
+            this.TextboxMenu_Spacing.Size = new System.Drawing.Size(152, 22);
+            this.TextboxMenu_Spacing.Text = "Invert Spacing";
+            this.TextboxMenu_Spacing.Click += new System.EventHandler(this.TextboxMenu_Spacing_Click);
             // 
             // label_Effect
             // 
@@ -731,7 +750,7 @@
             this.SymbolMenu_SB,
             this.SymbolMenu_SC});
             this.EditMenu_Symbols.Name = "EditMenu_Symbols";
-            this.EditMenu_Symbols.Size = new System.Drawing.Size(139, 22);
+            this.EditMenu_Symbols.Size = new System.Drawing.Size(152, 22);
             this.EditMenu_Symbols.Text = "Add Symbol";
             // 
             // SymbolMenu_BrackLeft
@@ -791,7 +810,7 @@
             // EditMenu_Preferences
             // 
             this.EditMenu_Preferences.Name = "EditMenu_Preferences";
-            this.EditMenu_Preferences.Size = new System.Drawing.Size(139, 22);
+            this.EditMenu_Preferences.Size = new System.Drawing.Size(152, 22);
             this.EditMenu_Preferences.Text = "Preferences";
             this.EditMenu_Preferences.Click += new System.EventHandler(this.EditMenu_Preferences_Click);
             // 
@@ -799,6 +818,7 @@
             // 
             this.menustripTool_Export.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ExportMenu_FanonTable,
+            this.ExportMenu_ReadableText,
             this.ExportMenu_Image});
             this.menustripTool_Export.Name = "menustripTool_Export";
             this.menustripTool_Export.Size = new System.Drawing.Size(52, 20);
@@ -807,16 +827,23 @@
             // ExportMenu_FanonTable
             // 
             this.ExportMenu_FanonTable.Name = "ExportMenu_FanonTable";
-            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(159, 22);
-            this.ExportMenu_FanonTable.Text = "Fanon Template";
+            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(152, 22);
+            this.ExportMenu_FanonTable.Text = "Card Table";
             this.ExportMenu_FanonTable.Click += new System.EventHandler(this.ExportMenu_FanonTable_Click);
             // 
             // ExportMenu_Image
             // 
             this.ExportMenu_Image.Name = "ExportMenu_Image";
-            this.ExportMenu_Image.Size = new System.Drawing.Size(159, 22);
+            this.ExportMenu_Image.Size = new System.Drawing.Size(152, 22);
             this.ExportMenu_Image.Text = "Image";
             this.ExportMenu_Image.Click += new System.EventHandler(this.button_SaveImage_Click);
+            // 
+            // ExportMenu_ReadableText
+            // 
+            this.ExportMenu_ReadableText.Name = "ExportMenu_ReadableText";
+            this.ExportMenu_ReadableText.Size = new System.Drawing.Size(152, 22);
+            this.ExportMenu_ReadableText.Text = "Readable Text";
+            this.ExportMenu_ReadableText.Click += new System.EventHandler(this.ExportMenu_ReadableText_Click);
             // 
             // menustripTool_Help
             // 
@@ -865,6 +892,10 @@
             this.openData.FileName = "openFileDialog1";
             this.openData.Filter = "Card File (*.crd)|*.crd";
             // 
+            // tooltip
+            // 
+            this.tooltip.BackColor = System.Drawing.SystemColors.HighlightText;
+            // 
             // picBox_CardImage
             // 
             this.picBox_CardImage.BackColor = System.Drawing.Color.White;
@@ -874,10 +905,6 @@
             this.picBox_CardImage.Size = new System.Drawing.Size(349, 508);
             this.picBox_CardImage.TabIndex = 0;
             this.picBox_CardImage.TabStop = false;
-            // 
-            // tooltip
-            // 
-            this.tooltip.BackColor = System.Drawing.SystemColors.HighlightText;
             // 
             // Main
             // 
@@ -899,7 +926,7 @@
             this.group_Edit.PerformLayout();
             this.group_Legion.ResumeLayout(false);
             this.group_Legion.PerformLayout();
-            this.InsertSymbol.ResumeLayout(false);
+            this.TextBoxMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numeric_Power)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_Grade)).EndInit();
             this.MenuStrip.ResumeLayout(false);
@@ -974,21 +1001,24 @@
         private System.Windows.Forms.SaveFileDialog saveImage;
         private System.Windows.Forms.SaveFileDialog saveData;
         private System.Windows.Forms.OpenFileDialog openData;
-        private System.Windows.Forms.ContextMenuStrip InsertSymbol;
-        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_LeftBracket;
-        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_RightBracket;
+        private System.Windows.Forms.ContextMenuStrip TextBoxMenu;
         private System.Windows.Forms.ToolStripMenuItem SymbolMenu_CB;
         private System.Windows.Forms.ToolStripMenuItem SymbolMenu_SB;
         private System.Windows.Forms.ToolStripMenuItem SymbolMenu_CC;
         private System.Windows.Forms.ToolStripMenuItem SymbolMenu_SC;
-        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_CB;
-        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_CC;
-        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_SB;
-        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_SC;
         private System.Windows.Forms.Button button_Bold;
         private System.Windows.Forms.Button button_Italics;
         private System.Windows.Forms.Button button_Red;
         private System.Windows.Forms.ToolTip tooltip;
+        private System.Windows.Forms.ToolStripMenuItem TextboxMenu_Insert;
+        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_LeftBracket;
+        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_RightBracket;
+        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_CB;
+        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_CC;
+        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_SB;
+        private System.Windows.Forms.ToolStripMenuItem InsertSymbol_SC;
+        private System.Windows.Forms.ToolStripMenuItem TextboxMenu_Spacing;
+        private System.Windows.Forms.ToolStripMenuItem ExportMenu_ReadableText;
     }
 }
 
