@@ -6200,26 +6200,6 @@
         9YazjDhTwxkRZxAEwSZhOIMgCLZJY8PJH7zDcAZBENQazo2lf2rM6yXHUVqAAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="EffectBox_LineCut" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAU4AAAARCAYAAACy/EX/AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xMzQDW3oAAAD/SURBVHhe7dox
-        S8NQFIDR/k8dXITWjOKgm7i4uoi61Cr6BwWLNTbe275AIWkgc07gwE0CGT8u4c2aprkIb7NyxXwTPsIn
-        wMRlC89KHrOPeV8JJ8BxwgkwknACjDQYzlV5nvfX5WXfRwCmZDCchxuncALsHQ3nIggnQFe28LTkMfv4
-        HnbhPA+v4SFf/G23tzELJ0C0MJpYhbaTT2HRhnOZvtab+5/f+iXmvg8ATM73pl6uN3W7TD6G+eHG+Vw2
-        zruYbZwA+43zMlzlHDKcu41zHvzjBOjKFp6UNuaSuQrOcQIMyBY6AA8wwmA4HYAH6BJOgJGEE2Ak4QQY
-        qSecTfUPRyjNeBWfChcAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="EffectBox_Lines" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAU4AAAARCAYAAACy/EX/AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xMzQDW3oAAACnSURBVHhe7dtN
-        CsIwEIDRHtW13ft3GhXqKZtiggNutGTWeYW3aIbZfoRCp23bjuu6Pqd4Sim3+r5UL4DBLbWRh8jj1N5r
-        I2fhBPhvN5yPOG/hvLZhLAGMbDec9zgXToCv7nBe2jCWAEbmxgmQ5BsnQJJwAiQJJ0CScAIkCSdAknAC
-        JHWH89yGsQQwsu5wntowlgBG5sYJkNQdTr9cAnwIJ0DSj3CW+Q3/zOJuUMltyQAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="Icon_CB" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABoAAAANCAYAAAC3mX7tAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -6542,6 +6522,26 @@
         kkroXnDptbkaK6I2WJoaqS/NWGqkJYmqC2vGXhjKy9iAUHE4mG/nAZouoG8IaBsGGocwHtcMfXEzpgTl
         kGa+oDupFNqKYsiz8zH8koux+gZ6vMixOCKHpUcMQ4cIpn4BHJpOTPGbqM1StJdxyJULfuT/ACMAZffM
         b3dFAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="EffectBox_LineCut" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAU4AAAAPCAYAAACLICYUAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vAAADrwBlbxySQAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xMzQDW3oAAAD3SURBVHhe7dox
+        S8NQFIDR/k8dXITWjOKgm7i4uoi61Cr6BwWLNTbe275AIWkgc07gwE0CGT8u4c2aprkIb7NyxXwTPsIn
+        wMRlC89KHrOPeV8JJ8Bxwgkw0mA4V+V53l+Xl30fAZiSwXAebpzCCbB3NJyLIJwAXdnC05LH7ON72IXz
+        PLyGh3zxt93exiycANHCaGIV2k4+hUUbzmX6Wm/uf37rl5j7PgAwOd+berne1O0y+Rjmhxvnc9k472K2
+        cQLsN87LcJVzyHDuNs558I8ToCtbeFLamEvmKjjHCTAgW+gAPMAIg+F0AB6gSzgBRhJOgJF6wtlU/xJr
+        bpdRwEL1AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="EffectBox_Lines" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAU4AAAAPCAYAAACLICYUAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vAAADrwBlbxySQAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4xMzQDW3oAAACbSURBVHhe7dhB
+        CsIwEEDRHtW13av1NCrUUzbBBAbcaOms8wpvkQyz/YROtdbztm2vKb5Syr2d1+YNMLi1NfIUeZz6uTVy
+        Fk6A/3bD+Yz7Hs6lD2MJYGS74XzEvXACfB0O560PYwlgZF6cAEn+cQIkCSdAknACJAknQJJwAiQJJ0DS
+        4XBe+zCWAEZ2OJyXPowlgJF5cQIk/QhnmT+34pqhDpnC7QAAAABJRU5ErkJggg==
 </value>
   </data>
 </root>

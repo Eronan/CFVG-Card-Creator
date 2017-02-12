@@ -219,11 +219,8 @@ namespace CFVG_Card_Creator
             if (outline != null)
             {
                 //Create Outline
-                Pen pen = outline;
-                pen.LineJoin = LineJoin.Round;
-                g.DrawPath(pen, path);
-
-                pen.Dispose();
+                outline.LineJoin = LineJoin.Round;
+                g.DrawPath(outline, path);
             }
 
             //Draw
