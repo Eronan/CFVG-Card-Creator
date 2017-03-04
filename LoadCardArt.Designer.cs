@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoadCardArt));
             this.group_Selection = new System.Windows.Forms.GroupBox();
             this.button_OK = new System.Windows.Forms.Button();
             this.checkbox_Ratio = new System.Windows.Forms.CheckBox();
@@ -204,7 +205,6 @@
             // 
             // openImageFile
             // 
-            this.openImageFile.FileName = "openImageFile";
             this.openImageFile.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.gif, *.tiff, *.bmp) | *.jpg; " +
     "*.jpeg; *.jpe; *.jfif; *.png; *.gif; *.tiff; *.bmp";
             // 
@@ -240,6 +240,7 @@
             this.Controls.Add(this.picBox_CardImage);
             this.Controls.Add(this.group_Selection);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoadCardArt";
             this.Text = "LoadCardArt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoadCardArt_FormClosing);

@@ -27,20 +27,17 @@ namespace CFVG_Card_Creator
             saveBitmap.MakeTransparent();
 
             openImageFile.InitialDirectory = initialPath;
-        }
 
-        private void LoadCardArt_Load(object sender, EventArgs e)
-        {
             //Open Image on Load
             if (openImageFile.ShowDialog(this) != DialogResult.Cancel)
             {
                 //Load up File from Path
                 originBitmap = new Bitmap(openImageFile.FileName);
-                viewBitmap = (Bitmap) originBitmap.Clone();
+                viewBitmap = (Bitmap)originBitmap.Clone();
                 pictureBox_View.Image = viewBitmap;
 
                 //Check which is smaller width or Height.
-                if (originBitmap.Width < originBitmap.Height)
+                if (originBitmap.Height * NormResolution > originBitmap.Width)
                 {
                     //If width is smaller the maximum is based on width
                     numeric_Width.Maximum = originBitmap.Width;
@@ -62,6 +59,38 @@ namespace CFVG_Card_Creator
                 this.DialogResult = DialogResult.Cancel;
                 this.Close();
             }
+        }
+
+        public LoadCardArt(Bitmap bmp)
+        {
+            InitializeComponent();
+            //Make Bitmap Transparent
+            saveBitmap.MakeTransparent();
+
+            originBitmap = bmp;
+            viewBitmap = (Bitmap)originBitmap.Clone();
+            pictureBox_View.Image = viewBitmap;
+
+            //Check which is smaller width or Height.
+            if (originBitmap.Width / 441 < originBitmap.Height / 349)
+            {
+                //If width is smaller the maximum is based on width
+                numeric_Width.Maximum = originBitmap.Width;
+                numeric_Height.Maximum = (int)(originBitmap.Width / NormResolution);
+                numeric_Width.Value = originBitmap.Width;
+            }
+            else
+            {
+                //If width is height the maximum is based on height
+                numeric_Height.Maximum = originBitmap.Height;
+                numeric_Width.Maximum = (int)(originBitmap.Height * NormResolution);
+                numeric_Height.Value = originBitmap.Height;
+            }
+        }
+
+        private void LoadCardArt_Load(object sender, EventArgs e)
+        {
+            
         }
 
         private void UpdatePicture()

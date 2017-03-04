@@ -9,6 +9,7 @@ namespace CFVG_Card_Creator
     class EffectLayer
     {
         public static double TEXTHEIGHT = 15;
+        const int outlineAlpha = 201;
         const int MAXWIDTH = 325;
         List<TextLayer> effect_Text = new List<TextLayer>();
         List<ImageLayer> effect_Images = new List<ImageLayer>();
@@ -60,25 +61,16 @@ namespace CFVG_Card_Creator
                             //Get string without Brackets
                             string key = newInput.Substring(1, newInput.Length - 2);
 
-                            if (effectIcons.TryGetValue(key, out getBitmap))
+                            int startText = key.IndexOf("(");
+                            int endText = key.IndexOf(")");
+
+                            if (startText != -1 && endText != -1 && specialIcons.TryGetValue(key.Remove(startText) + (red ? "R" : ""), out getBitmap))
                             {
                                 width += getBitmap.Width + 2;
                             }
-                            else
+                            else if (effectIcons.TryGetValue(key, out getBitmap))
                             {
-                                int startText = key.IndexOf("(");
-                                int endText = key.IndexOf(")");
-
-                                //Check it exists
-                                if (startText != -1 && endText != -1)
-                                {
-                                    string mainKey = key.Remove(startText);
-
-                                    if (specialIcons.TryGetValue(mainKey, out getBitmap))
-                                    {
-                                        width += getBitmap.Width + 2;
-                                    }
-                                }
+                                width += getBitmap.Width + 2;
                             }
                         }
                         else if (newInput.Length != 0)
@@ -139,30 +131,19 @@ namespace CFVG_Card_Creator
                             string key = newInput.Substring(1, newInput.Length - 2);
 
                             //Check if exists and load into getBitmap
-                            if (effectIcons.TryGetValue(key, out getBitmap))
+                            int startText = key.IndexOf("(");
+                            int endText = key.IndexOf(")");
+                            if (startText != -1 && endText != -1 && specialIcons.TryGetValue(key.Remove(startText) + (red ? "R" : ""), out getBitmap))
+                            {
+                                //Mix of Image and Text Layer
+                                effect_Special.Add(new SpecialLayer(getBitmap, key.Substring(startText + 1, endText - startText - 1), new Font(textFont, 11.09f, FontStyle.Regular), textColour, currentX + 2, (int)((double)currentY + (TEXTHEIGHT - getBitmap.Height) / 2)));
+                                currentX += getBitmap.Width;
+                            }
+                            else if (effectIcons.TryGetValue(key, out getBitmap))
                             {
                                 //Load image in the centre of height
                                 effect_Images.Add(new ImageLayer(getBitmap, currentX + 2, (int)(currentY + (TEXTHEIGHT - getBitmap.Height) / 2)));
                                 currentX += getBitmap.Width;
-                            }
-                            else
-                            {
-                                //Find the value for the Special Replacement
-                                int startText = key.IndexOf("(");
-                                int endText = key.IndexOf(")");
-
-                                //Check that it exists
-                                if (startText != -1 && endText != -1)
-                                {
-                                    string mainKey = key.Remove(startText) + (red ? "R" : "");
-
-                                    if (specialIcons.TryGetValue(mainKey, out getBitmap))
-                                    {
-                                        //Mix of Image and Text Layer
-                                        effect_Special.Add(new SpecialLayer(getBitmap, key.Substring(startText + 1, endText - startText - 1), new Font(textFont, 11.09f, FontStyle.Regular), textColour, currentX + 2, (int)((double)currentY + (TEXTHEIGHT - getBitmap.Height) / 2)));
-                                        currentX += getBitmap.Width;
-                                    }
-                                }
                             }
                         }
                         else if (newInput.StartsWith("{") && !newInput.StartsWith("}")) //Double Check
@@ -177,6 +158,9 @@ namespace CFVG_Card_Creator
                             if (bold && italics) style = FontStyle.Bold | FontStyle.Italic;
                             else if (italics) style = FontStyle.Italic;
                             else if (bold) style = FontStyle.Bold;
+
+                            //Change CurrentX based on first characterS
+                            currentX += FirstCharacter(newInput[0], italics);
 
                             effect_Text.Add(new TextLayer(newInput, new Font(textFont, 11.5f, style), textColour, currentX, (int)(currentY + 2.5), StringAlignment.Near));
 
@@ -201,7 +185,7 @@ namespace CFVG_Card_Creator
             }
         }
 
-        public EffectLayer(string text, FontFamily textFont, int startY, Dictionary<string, Bitmap> effectIcons, Dictionary<string, Bitmap> specialIcons, char[] wordSplit, int outline)
+        public EffectLayer(string text, FontFamily textFont, int startY, Dictionary<string, Bitmap> effectIcons, Dictionary<string, Bitmap> specialIcons, char[] wordSplit, float outline)
         {
             bool red = false;
             bool italics = false;
@@ -219,7 +203,7 @@ namespace CFVG_Card_Creator
             {
                 //Find Respace Value
                 int width = 0;
-                Pen outlinePen = new Pen(Color.White, outline + 0.5f);
+                Pen outlinePen = new Pen(Color.FromArgb(outlineAlpha + 10, Color.White), outline + 1f);
 
                 foreach (string word in line.Split(wordSplit[0]))
                 {
@@ -239,30 +223,21 @@ namespace CFVG_Card_Creator
                         bool endBold = EndTags.Item4;
                         bool endItalics = EndTags.Item6;
 
+
                         if (newInput.StartsWith("{") && newInput.EndsWith("}"))
                         {
                             //Get string without Brackets
                             string key = newInput.Substring(1, newInput.Length - 2);
 
-                            if (effectIcons.TryGetValue(key, out getBitmap))
+                            int startText = 0;
+                            int endText = 0;
+                            if ((startText = key.IndexOf("(")) != -1 && (endText = key.IndexOf(")")) != -1 && specialIcons.TryGetValue(key.Remove(startText) + (red ? "R" : ""), out getBitmap))
                             {
-                                width += getBitmap.Width + 1 + outline;
+                                width += getBitmap.Width + 1 + (int)Math.Floor(outline);
                             }
-                            else
+                            else if (effectIcons.TryGetValue(key, out getBitmap))
                             {
-                                int startText = key.IndexOf("(");
-                                int endText = key.IndexOf(")");
-
-                                //Check it exists
-                                if (startText != -1 && endText != -1)
-                                {
-                                    string mainKey = key.Remove(startText);
-
-                                    if (specialIcons.TryGetValue(mainKey, out getBitmap))
-                                    {
-                                        width += getBitmap.Width + 1 + outline;
-                                    }
-                                }
+                                width += getBitmap.Width + 1 + (int)Math.Floor(outline);
                             }
                         }
                         else if (newInput.Length != 0)
@@ -274,7 +249,7 @@ namespace CFVG_Card_Creator
                             else if (measureBold) style = FontStyle.Bold;
 
                             TextLayer temporary = new TextLayer(newInput, new Font(textFont, 11.5f, style), Color.Black, 0, 0, StringAlignment.Near);
-                            width += temporary.width + 2 + outline;
+                            width += temporary.width + 2 + (int)Math.Floor(outline);
 
                             width += LastCharacter(newInput.Last(), measureItalics);
                         }
@@ -291,7 +266,7 @@ namespace CFVG_Card_Creator
 
                 int respace = (MAXWIDTH - width) > 0 ? (MAXWIDTH - width) / line.Split(wordSplit[0]).Length : 0;
 
-                int currentX = 12;
+                int currentX = 9;
 
                 foreach (string word in line.Split(wordSplit[0]))
                 {
@@ -323,32 +298,21 @@ namespace CFVG_Card_Creator
                             string key = newInput.Substring(1, newInput.Length - 2);
 
                             //Check if exists and load into getBitmap
-                            if (effectIcons.TryGetValue(key, out getBitmap))
+                            int startText = key.IndexOf("(");
+                            int endText = key.IndexOf(")");
+                            if (startText != - 1 && endText != - 1 && specialIcons.TryGetValue(key.Remove(startText) + (red ? "R" : ""), out getBitmap))
+                            {
+                                getBitmap = outlineImage(getBitmap, outline);
+                                //Mix of Image and Text Layer
+                                effect_Special.Add(new SpecialLayer(getBitmap, key.Substring(startText + 1, endText - startText - 1), new Font(textFont, 11.09f, FontStyle.Regular), textColour, currentX + 2, (int)((double)currentY + (TEXTHEIGHT - getBitmap.Height) / 2), outlinePen));
+                                currentX += getBitmap.Width;
+                            }
+                            else if (effectIcons.TryGetValue(key, out getBitmap))
                             {
                                 getBitmap = outlineImage(getBitmap, outline);
                                 //Load image in the centre of height
                                 effect_Images.Add(new ImageLayer(getBitmap, currentX + 2, (int)(currentY + (TEXTHEIGHT - getBitmap.Height) / 2)));
                                 currentX += getBitmap.Width;
-                            }
-                            else
-                            {
-                                //Find the value for the Special Replacement
-                                int startText = key.IndexOf("(");
-                                int endText = key.IndexOf(")");
-
-                                //Check that it exists
-                                if (startText != -1 && endText != -1)
-                                {
-                                    string mainKey = key.Remove(startText) + (red ? "R" : "");
-
-                                    if (specialIcons.TryGetValue(mainKey, out getBitmap))
-                                    {
-                                        getBitmap = outlineImage(getBitmap, outline);
-                                        //Mix of Image and Text Layer
-                                        effect_Special.Add(new SpecialLayer(getBitmap, key.Substring(startText + 1, endText - startText - 1), new Font(textFont, 11.09f, FontStyle.Regular), textColour, currentX + 2, (int)((double)currentY + (TEXTHEIGHT - getBitmap.Height) / 2), outlinePen));
-                                        currentX += getBitmap.Width;
-                                    }
-                                }
                             }
                         }
                         else if (newInput.StartsWith("{") && !newInput.StartsWith("}")) //Double Check
@@ -363,6 +327,9 @@ namespace CFVG_Card_Creator
                             if (bold && italics) style = FontStyle.Bold | FontStyle.Italic;
                             else if (italics) style = FontStyle.Italic;
                             else if (bold) style = FontStyle.Bold;
+
+                            //Change CurrentX based on first characterS
+                            currentX += FirstCharacter(newInput[0], italics);
 
                             effect_Text.Add(new TextLayer(newInput, new Font(textFont, 11.5f, style), textColour, currentX, (int)(currentY + 2.5), StringAlignment.Near, outlinePen));
 
@@ -403,14 +370,15 @@ namespace CFVG_Card_Creator
             }
         }
 
-        public static Bitmap outlineImage(Bitmap original, int outline)
+        public static Bitmap outlineImage(Bitmap original, float outline)
         {
-            Bitmap returnBitmap = new Bitmap(original.Width + outline * 2, original.Height + outline * 2);
-            Bitmap mask = new Bitmap(original.Width + outline * 2, original.Height + outline * 2);
+            int outlineFloor = (int)Math.Floor(outline);
+            Bitmap returnBitmap = new Bitmap(original.Width + outlineFloor * 2, original.Height + outlineFloor * 2);
+            Bitmap mask = new Bitmap(original.Width + outlineFloor * 2, original.Height + outlineFloor * 2);
 
             //Move original Bitmap 1 across and 1 down
             Graphics g = Graphics.FromImage(returnBitmap);
-            g.DrawImage(original, new Point(outline, outline));
+            g.DrawImage(original, new Point(outlineFloor, outlineFloor));
 
             for (int i = 0; i < returnBitmap.Width; i++)
             {
@@ -422,44 +390,44 @@ namespace CFVG_Card_Creator
                         if (j + 1 < returnBitmap.Height && returnBitmap.GetPixel(i, j + 1).A != Color.Transparent.A)
                         {
                             //If Pixel Underneath is not Transparent
-                            mask.SetPixel(i, j, Color.FromArgb(201, 255, 255, 255));
-                            for (int k = 0; k < outline - 1; k++)
+                            mask.SetPixel(i, j, Color.FromArgb(outlineAlpha, 255, 255, 255));
+                            for (int k = 1; k < outline - 1; k++)
                             {
                                 Color outlineColour = Color.White;
-                                if (k == outline - 2) Color.FromArgb(201, 255, 255, 255);
+                                if (k == outline - 2) outlineColour = Color.FromArgb(outlineAlpha, 255, 255, 255);
                                 mask.SetPixel(i, j - k, outlineColour);
                             }
                         }
                         if (j - 1 > 0 && returnBitmap.GetPixel(i, j - 1).A != Color.Transparent.A)
                         {
                             //If Pixel Above is not Transparent
-                            mask.SetPixel(i, j, Color.FromArgb(201, 255, 255, 255));
-                            for (int k = 0; k < outline - 1; k++)
+                            mask.SetPixel(i, j, Color.FromArgb(outlineAlpha, 255, 255, 255));
+                            for (int k = 1; k < outline - 1; k++)
                             {
                                 Color outlineColour = Color.White;
-                                if (k == outline - 2) Color.FromArgb(201, 255, 255, 255);
+                                if (k == outline - 2) outlineColour = Color.FromArgb(outlineAlpha, 255, 255, 255);
                                 mask.SetPixel(i, j + k, outlineColour);
                             }
                         }
                         if (i - 1 > 0 && returnBitmap.GetPixel(i - 1, j).A != Color.Transparent.A)
                         {
                             //If Pixel to the Left is not Transparent
-                            mask.SetPixel(i, j, Color.FromArgb(201, 255, 255, 255));
-                            for (int k = 0; k < outline - 1; k++)
+                            mask.SetPixel(i, j, Color.FromArgb(outlineAlpha, 255, 255, 255));
+                            for (int k = 1; k < outline - 1; k++)
                             {
                                 Color outlineColour = Color.White;
-                                if (k == outline - 2) Color.FromArgb(201, 255, 255, 255);
+                                if (k == outline - 2) outlineColour = Color.FromArgb(outlineAlpha, 255, 255, 255);
                                 mask.SetPixel(i + k, j, outlineColour);
                             }
                         }
                         if (i + 1 < returnBitmap.Width && returnBitmap.GetPixel(i + 1, j).A != Color.Transparent.A)
                         {
                             //If Pixel to the Right is not Transparent
-                            mask.SetPixel(i, j, Color.FromArgb(201, 255, 255, 255));
-                            for (int k = 0; k < outline - 1; k++)
+                            mask.SetPixel(i, j, Color.FromArgb(outlineAlpha, 255, 255, 255));
+                            for (int k = 1; k < outline - 1; k++)
                             {
                                 Color outlineColour = Color.White;
-                                if (k == outline - 2) Color.FromArgb(201, 255, 255, 255);
+                                if (k == outline - 2) outlineColour = Color.FromArgb(outlineAlpha, 255, 255, 255);
                                 mask.SetPixel(i - k, j, outlineColour);
                             }
                         }
@@ -467,7 +435,7 @@ namespace CFVG_Card_Creator
                 }
             }
 
-            g.DrawImage(mask, new Point(1, 1));
+            g.DrawImage(mask, new Point(0, 0));
             g.Dispose();
 
             mask.Dispose();
@@ -526,6 +494,22 @@ namespace CFVG_Card_Creator
             return new Tuple<bool, bool, bool, bool, bool, bool>(bold, red, italics, endBold, endRed, endItalics);
         }
 
+        private int FirstCharacter(char firstChar, bool italics)
+        {
+            if (!italics)
+            {
+                switch (firstChar)
+                {
+                    case '/':
+                        return 1;
+                    case '】':
+                        return -1;
+                }
+            }
+
+            return 0;
+        }
+
         private int LastCharacter(char lastChar, bool italics)
         {
             if (!italics)
@@ -533,7 +517,7 @@ namespace CFVG_Card_Creator
                 //Fix Spacing
                 switch (lastChar)
                 {
-                    case 'w': case 'Y':
+                    case 'w': case 'Y': case '/':
 						return -1;
                     case 'l': case 'i': case '1': case '.': case 'r': case '!': case 'E': case 'I': case 'U': case '|': case 'D': case 'F': case 'G': case 'H': case 'J': case 'K':
                     case 'L': case '0': case 'd': case 'N': case 'B':

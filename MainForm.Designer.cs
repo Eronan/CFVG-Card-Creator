@@ -110,6 +110,7 @@
             this.openData = new System.Windows.Forms.OpenFileDialog();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.picBox_CardImage = new System.Windows.Forms.PictureBox();
+            this.FileMenu_LoadImage = new System.Windows.Forms.ToolStripMenuItem();
             this.group_Edit.SuspendLayout();
             this.group_Legion.SuspendLayout();
             this.TextBoxMenu.SuspendLayout();
@@ -682,6 +683,7 @@
             this.FileMenu_New,
             this.FileMenu_Open,
             this.FileMenu_Save,
+            this.FileMenu_LoadImage,
             this.FileMenu_SaveAs,
             this.FileMenu_SaveImage,
             this.FileMenu_Close});
@@ -827,21 +829,21 @@
             // ExportMenu_FanonTable
             // 
             this.ExportMenu_FanonTable.Name = "ExportMenu_FanonTable";
-            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(152, 22);
+            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(151, 22);
             this.ExportMenu_FanonTable.Text = "Card Table";
             this.ExportMenu_FanonTable.Click += new System.EventHandler(this.ExportMenu_FanonTable_Click);
             // 
             // ExportMenu_ReadableText
             // 
             this.ExportMenu_ReadableText.Name = "ExportMenu_ReadableText";
-            this.ExportMenu_ReadableText.Size = new System.Drawing.Size(152, 22);
+            this.ExportMenu_ReadableText.Size = new System.Drawing.Size(151, 22);
             this.ExportMenu_ReadableText.Text = "Readable Text";
             this.ExportMenu_ReadableText.Click += new System.EventHandler(this.ExportMenu_ReadableText_Click);
             // 
             // ExportMenu_Image
             // 
             this.ExportMenu_Image.Name = "ExportMenu_Image";
-            this.ExportMenu_Image.Size = new System.Drawing.Size(152, 22);
+            this.ExportMenu_Image.Size = new System.Drawing.Size(151, 22);
             this.ExportMenu_Image.Text = "Image (Ctrl+E)";
             this.ExportMenu_Image.Click += new System.EventHandler(this.button_SaveImage_Click);
             // 
@@ -889,7 +891,6 @@
             // 
             // openData
             // 
-            this.openData.FileName = "openFileDialog1";
             this.openData.Filter = "Card File (*.crd)|*.crd";
             // 
             // tooltip
@@ -905,6 +906,13 @@
             this.picBox_CardImage.Size = new System.Drawing.Size(349, 508);
             this.picBox_CardImage.TabIndex = 0;
             this.picBox_CardImage.TabStop = false;
+            // 
+            // FileMenu_LoadImage
+            // 
+            this.FileMenu_LoadImage.Name = "FileMenu_LoadImage";
+            this.FileMenu_LoadImage.Size = new System.Drawing.Size(199, 22);
+            this.FileMenu_LoadImage.Text = "Load Image (Ctrl+L)";
+            this.FileMenu_LoadImage.Click += new System.EventHandler(this.button_CardArt_Click);
             // 
             // MainForm
             // 
@@ -1020,6 +1028,7 @@
         private System.Windows.Forms.ToolStripMenuItem InsertSymbol_SC;
         private System.Windows.Forms.ToolStripMenuItem TextboxMenu_Spacing;
         private System.Windows.Forms.ToolStripMenuItem ExportMenu_ReadableText;
+        private System.Windows.Forms.ToolStripMenuItem FileMenu_LoadImage;
     }
 }
 

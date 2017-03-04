@@ -193,8 +193,33 @@ namespace CFVG_Card_Creator
 
             SetUp();
 
-            filePath = path;
-            openFromFile();
+            if (path.EndsWith(".crd"))
+            {
+                filePath = path;
+                openFromFile();
+            }
+            else
+            {
+                LoadCardArt cardartForm = new LoadCardArt(new Bitmap(path));
+                if (cardartForm.ShowDialog(this) == DialogResult.OK)
+                {
+                    CardArt = (Bitmap)cardartForm.saveBitmap.Clone();
+
+                    //Disable
+                    group_Edit.Enabled = false;
+                    Cursor = Cursors.WaitCursor;
+                    //Update
+                    UpdateLayers();
+                    UpdateImage();
+                    //Reset Cursor
+                    Cursor = Cursors.Default;
+                    group_Edit.Enabled = true;
+
+                    button_CardArt.Focus();
+                }
+                cardartForm.saveBitmap.Dispose();
+                cardartForm.Dispose();
+            }
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -220,7 +245,7 @@ namespace CFVG_Card_Creator
             TextboxMenu_Insert.DropDown.MaximumSize = new Size(TextboxMenu_Insert.DropDown.Width, 300);
 
             //Disable SP Setting
-            checkbox_SP.Enabled = false;
+            //checkbox_SP.Enabled = false;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -254,6 +279,11 @@ namespace CFVG_Card_Creator
                 //Export Image
                 button_SaveImage_Click(FileMenu_SaveImage, null);
                 return true;
+            }
+            else if (keyData == (Keys.Control | Keys.L))
+            {
+                //Load Card Art
+                button_CardArt_Click(FileMenu_LoadImage, null);
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -380,24 +410,28 @@ namespace CFVG_Card_Creator
         private void button_CardArt_Click(object sender, EventArgs e)
         {
             LoadCardArt cardartForm = new LoadCardArt(cardArtPath);
-            if (cardartForm.ShowDialog(this) == DialogResult.OK)
+            try
             {
-                CardArt = (Bitmap)cardartForm.saveBitmap.Clone();
+                if (cardartForm.ShowDialog(this) == DialogResult.OK)
+                {
+                    CardArt = (Bitmap)cardartForm.saveBitmap.Clone();
 
-                //Disable
-                group_Edit.Enabled = false;
-                Cursor = Cursors.WaitCursor;
-                //Update
-                UpdateLayers();
-                UpdateImage();
-                //Reset Cursor
-                Cursor = Cursors.Default;
-                group_Edit.Enabled = true;
+                    //Disable
+                    group_Edit.Enabled = false;
+                    Cursor = Cursors.WaitCursor;
+                    //Update
+                    UpdateLayers();
+                    UpdateImage();
+                    //Reset Cursor
+                    Cursor = Cursors.Default;
+                    group_Edit.Enabled = true;
 
-                button_CardArt.Focus();
+                    button_CardArt.Focus();
+                }
+                cardartForm.saveBitmap.Dispose();
+                cardartForm.Dispose();
             }
-            cardartForm.saveBitmap.Dispose();
-            cardartForm.Dispose();
+            catch (ObjectDisposedException) { }
         }
 
         private void EditMenu_Preferences_Click(object sender, EventArgs e)
@@ -800,6 +834,7 @@ namespace CFVG_Card_Creator
         {
             try
             {
+                checkbox_SP.Checked = false;
                 //Load File from filePath variable
                 using (StreamReader reader = new StreamReader(filePath))
                 {
@@ -883,6 +918,11 @@ namespace CFVG_Card_Creator
                                 //Load into CardArt Bitmap
                                 CardArt = new Bitmap(img);
                                 break;
+                            case "SP":
+                                //Set SP to True
+                                if (values[1].ToCharArray()[0] == '1') checkbox_SP.Checked = true;
+                                else checkbox_SP.Checked = false;
+                                break;
                         }
                     }
 
@@ -928,6 +968,7 @@ namespace CFVG_Card_Creator
                 writer.Write("|LegMate=" + (checkbox_LegMate.Checked ? 1 : 0));
                 writer.Write("|Illust=" + textbox_Illust.Text);
                 writer.Write("|Design=" + textbox_Design.Text);
+                writer.Write("|SP=" + (checkbox_SP.Checked ? 1 : 0));
                 writer.Write("|Effect=" + (checkbox_Effect.Checked ? richtextbox_Effect.Text : ""));
                 writer.Write("|Flavour=" + richtextbox_Flavour.Text);
                 writer.Write("|Image=" + bitmapString);
@@ -1130,7 +1171,7 @@ namespace CFVG_Card_Creator
 
                 if (checkbox_SP.Checked && richtextbox_Effect.Lines.Length > 0)
                 {
-                    Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 408 - 15 * richtextbox_Effect.Lines.Length, effectReplacements, specialReplacements, splitChars, 2);
+                    Layers_Effect = new EffectLayer(richtextbox_Effect.Text, Optima, 419 - 15 * richtextbox_Effect.Lines.Length, effectReplacements, specialReplacements, splitChars, 1.5f);
                 }
                 else
                 {

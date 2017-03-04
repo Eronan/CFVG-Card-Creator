@@ -29,6 +29,10 @@ RF = RF.png;
 G-Guardian = G-Guardian.png;
 Stride = Stride.png;
 Heal = Heal.png;
+CB = Icon_CB.png;
+CC = Icon_CC.png;
+SC = Icon_SC.png;
+SB = Icon_SB.png;
 
 #Circle Symbols
 RC = Symbol_RC.png;

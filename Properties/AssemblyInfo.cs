@@ -32,10 +32,20 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.8")]
-[assembly: AssemblyFileVersion("0.8")]
+[assembly: AssemblyVersion("0.9")]
+[assembly: AssemblyFileVersion("0.9")]
 
-/* Changelog 13/02/2017 Ver 0.8
+/* Changelog 04/02/2017 Ver 0.9
+    Special Print Added
+    Outline Image Function Fixed
+    Respace based on first character function
+    Opening Dialogs no longer have pre-set text
+    Added Shortcut for Loading Image
+    Open Card Art using "Open With..."
+    Fixed Maximum Width/Height Issues
+    Added CB, SB, SC and CC icons without circle
+    Fixed AUTO, ACT, IMM, and CONT transparency issues for outlining images
+ * Changelog 13/02/2017 Ver 0.8
     Line Height Smaller
     Open Files from "Open With..."
     Keyboard Controls added
