@@ -45,6 +45,7 @@ using System.Runtime.InteropServices;
     Fixed Maximum Width/Height Issues
     Added CB, SB, SC and CC icons without circle
     Fixed AUTO, ACT, IMM, and CONT transparency issues for outlining images
+    The program will no longer break if you do not have "Settings.xml"
  * Changelog 13/02/2017 Ver 0.8
     Line Height Smaller
     Open Files from "Open With..."

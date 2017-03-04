@@ -109,40 +109,76 @@ namespace CFVG_Card_Creator
             specialReplacements.Add("SBR", Properties.Resources.RedIcon_SB);
             specialReplacements.Add("SCR", Properties.Resources.RedIcon_SC);
 
-            //Load Settings
-            using (XmlReader reader = XmlReader.Create(appPath + "/Settings.xml"))
+            //Check if File Exists
+            if (!File.Exists(appPath + "/Settings.xml"))
             {
-                reader.MoveToContent();
-
-                while (reader.Read())
+                //Create File
+                using (XmlWriter writer = XmlWriter.Create("Settings.xml"))
                 {
-                    if (reader.NodeType == XmlNodeType.Element)
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("Settings");
+
+
+                    //Path for Card Art
+                    writer.WriteStartElement("CARDARTPATH");
+                    writer.WriteString(cardArtPath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Image Path
+                    writer.WriteStartElement("IMAGEPATH");
+                    writer.WriteString(imagePath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Data Path
+                    writer.WriteStartElement("DATAPATH");
+                    writer.WriteString(dataPath);
+                    writer.WriteFullEndElement();
+
+                    //Boolean Value for Respacing
+                    writer.WriteElementString("RESPACE", invertRespace.ToString());
+
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+                }
+            }
+            else
+            {
+                //Load Settings
+                using (XmlReader reader = XmlReader.Create(appPath + "/Settings.xml"))
+                {
+                    reader.MoveToContent();
+
+                    while (reader.Read())
                     {
-                        switch (reader.Name)
+                        if (reader.NodeType == XmlNodeType.Element)
                         {
-                            case "CARDARTPATH":
-                                //Read path for card Art
-                                reader.Read();
-                                cardArtPath = reader.Value;
-                                break;
-                            case "IMAGEPATH":
-                                //Read Path for Images
-                                reader.Read();
-                                imagePath = reader.Value;
-                                break;
-                            case "DATAPATH":
-                                //Read Path for Save Files
-                                reader.Read();
-                                dataPath = reader.Value;
-                                break;
-                            case "RESPACE":
-                                //Read BooleaN for Inverting
-                                reader.Read();
-                                invertRespace = bool.Parse(reader.Value);
-                                break;
+                            switch (reader.Name)
+                            {
+                                case "CARDARTPATH":
+                                    //Read path for card Art
+                                    reader.Read();
+                                    cardArtPath = reader.Value;
+                                    break;
+                                case "IMAGEPATH":
+                                    //Read Path for Images
+                                    reader.Read();
+                                    imagePath = reader.Value;
+                                    break;
+                                case "DATAPATH":
+                                    //Read Path for Save Files
+                                    reader.Read();
+                                    dataPath = reader.Value;
+                                    break;
+                                case "RESPACE":
+                                    //Read BooleaN for Inverting
+                                    reader.Read();
+                                    invertRespace = bool.Parse(reader.Value);
+                                    break;
+                            }
                         }
                     }
                 }
+
             }
 
             saveImage.InitialDirectory = imagePath;
