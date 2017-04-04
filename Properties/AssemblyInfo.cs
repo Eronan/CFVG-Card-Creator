@@ -32,10 +32,16 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9")]
-[assembly: AssemblyFileVersion("0.9")]
+[assembly: AssemblyVersion("1.0")]
+[assembly: AssemblyFileVersion("1.0")]
 
-/* Changelog 04/02/2017 Ver 0.9
+/* Changelog 05/04/2017 Ver 1.0
+    Shortcut Keys are Listed
+    Added 2 new Shortcuts: Quit and Help
+    Removed .xml file
+    LoadCardArt now Resizable
+    - Note: Inefficient
+ * Changelog 04/03/2017 Ver 0.9
     Special Print Added
     Outline Image Function Fixed
     Respace based on first character function

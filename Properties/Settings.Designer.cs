@@ -22,5 +22,53 @@ namespace CFVG_Card_Creator.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cardArtPath {
+            get {
+                return ((string)(this["cardArtPath"]));
+            }
+            set {
+                this["cardArtPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string imagePath {
+            get {
+                return ((string)(this["imagePath"]));
+            }
+            set {
+                this["imagePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string dataPath {
+            get {
+                return ((string)(this["dataPath"]));
+            }
+            set {
+                this["dataPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool invertRespace {
+            get {
+                return ((bool)(this["invertRespace"]));
+            }
+            set {
+                this["invertRespace"] = value;
+            }
+        }
     }
 }

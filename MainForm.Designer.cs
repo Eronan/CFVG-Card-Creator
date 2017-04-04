@@ -85,6 +85,7 @@
             this.FileMenu_New = new System.Windows.Forms.ToolStripMenuItem();
             this.FileMenu_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.FileMenu_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileMenu_LoadImage = new System.Windows.Forms.ToolStripMenuItem();
             this.FileMenu_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.FileMenu_SaveImage = new System.Windows.Forms.ToolStripMenuItem();
             this.FileMenu_Close = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,7 +111,7 @@
             this.openData = new System.Windows.Forms.OpenFileDialog();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.picBox_CardImage = new System.Windows.Forms.PictureBox();
-            this.FileMenu_LoadImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDataLoadFile = new System.Windows.Forms.SaveFileDialog();
             this.group_Edit.SuspendLayout();
             this.group_Legion.SuspendLayout();
             this.TextBoxMenu.SuspendLayout();
@@ -234,16 +235,16 @@
             // 
             // textbox_Design
             // 
-            this.textbox_Design.Location = new System.Drawing.Point(65, 214);
+            this.textbox_Design.Location = new System.Drawing.Point(58, 202);
             this.textbox_Design.MaxLength = 15;
             this.textbox_Design.Name = "textbox_Design";
-            this.textbox_Design.Size = new System.Drawing.Size(163, 20);
+            this.textbox_Design.Size = new System.Drawing.Size(170, 20);
             this.textbox_Design.TabIndex = 24;
             // 
             // label_Design
             // 
             this.label_Design.AutoSize = true;
-            this.label_Design.Location = new System.Drawing.Point(8, 217);
+            this.label_Design.Location = new System.Drawing.Point(6, 204);
             this.label_Design.Name = "label_Design";
             this.label_Design.Size = new System.Drawing.Size(51, 13);
             this.label_Design.TabIndex = 23;
@@ -455,16 +456,16 @@
             // 
             // textbox_Illust
             // 
-            this.textbox_Illust.Location = new System.Drawing.Point(59, 185);
+            this.textbox_Illust.Location = new System.Drawing.Point(54, 177);
             this.textbox_Illust.MaxLength = 15;
             this.textbox_Illust.Name = "textbox_Illust";
-            this.textbox_Illust.Size = new System.Drawing.Size(169, 20);
+            this.textbox_Illust.Size = new System.Drawing.Size(174, 20);
             this.textbox_Illust.TabIndex = 22;
             // 
             // label_Illust
             // 
             this.label_Illust.AutoSize = true;
-            this.label_Illust.Location = new System.Drawing.Point(6, 188);
+            this.label_Illust.Location = new System.Drawing.Point(6, 180);
             this.label_Illust.Name = "label_Illust";
             this.label_Illust.Size = new System.Drawing.Size(47, 13);
             this.label_Illust.TabIndex = 21;
@@ -472,7 +473,7 @@
             // 
             // textbox_Race
             // 
-            this.textbox_Race.Location = new System.Drawing.Point(47, 155);
+            this.textbox_Race.Location = new System.Drawing.Point(47, 153);
             this.textbox_Race.MaxLength = 100;
             this.textbox_Race.Name = "textbox_Race";
             this.textbox_Race.Size = new System.Drawing.Size(386, 20);
@@ -481,7 +482,7 @@
             // label_Race
             // 
             this.label_Race.AutoSize = true;
-            this.label_Race.Location = new System.Drawing.Point(7, 158);
+            this.label_Race.Location = new System.Drawing.Point(8, 155);
             this.label_Race.Name = "label_Race";
             this.label_Race.Size = new System.Drawing.Size(36, 13);
             this.label_Race.TabIndex = 19;
@@ -493,15 +494,15 @@
             this.combobox_Nation.FormattingEnabled = true;
             this.combobox_Nation.Items.AddRange(new object[] {
             "None"});
-            this.combobox_Nation.Location = new System.Drawing.Point(267, 128);
+            this.combobox_Nation.Location = new System.Drawing.Point(263, 127);
             this.combobox_Nation.Name = "combobox_Nation";
-            this.combobox_Nation.Size = new System.Drawing.Size(166, 21);
+            this.combobox_Nation.Size = new System.Drawing.Size(170, 21);
             this.combobox_Nation.TabIndex = 18;
             // 
             // label_Nation
             // 
             this.label_Nation.AutoSize = true;
-            this.label_Nation.Location = new System.Drawing.Point(220, 131);
+            this.label_Nation.Location = new System.Drawing.Point(220, 130);
             this.label_Nation.Name = "label_Nation";
             this.label_Nation.Size = new System.Drawing.Size(41, 13);
             this.label_Nation.TabIndex = 17;
@@ -509,16 +510,16 @@
             // 
             // textbox_Clan
             // 
-            this.textbox_Clan.Location = new System.Drawing.Point(43, 127);
+            this.textbox_Clan.Location = new System.Drawing.Point(45, 128);
             this.textbox_Clan.MaxLength = 20;
             this.textbox_Clan.Name = "textbox_Clan";
-            this.textbox_Clan.Size = new System.Drawing.Size(169, 20);
+            this.textbox_Clan.Size = new System.Drawing.Size(172, 20);
             this.textbox_Clan.TabIndex = 16;
             // 
             // label_Clan
             // 
             this.label_Clan.AutoSize = true;
-            this.label_Clan.Location = new System.Drawing.Point(6, 130);
+            this.label_Clan.Location = new System.Drawing.Point(8, 130);
             this.label_Clan.Name = "label_Clan";
             this.label_Clan.Size = new System.Drawing.Size(31, 13);
             this.label_Clan.TabIndex = 15;
@@ -694,42 +695,57 @@
             // FileMenu_New
             // 
             this.FileMenu_New.Name = "FileMenu_New";
-            this.FileMenu_New.Size = new System.Drawing.Size(199, 22);
+            this.FileMenu_New.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.FileMenu_New.Size = new System.Drawing.Size(195, 22);
             this.FileMenu_New.Text = "New";
             this.FileMenu_New.Click += new System.EventHandler(this.FileMenu_New_Click);
             // 
             // FileMenu_Open
             // 
             this.FileMenu_Open.Name = "FileMenu_Open";
-            this.FileMenu_Open.Size = new System.Drawing.Size(199, 22);
-            this.FileMenu_Open.Text = "Open (Ctrl+O)";
+            this.FileMenu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.FileMenu_Open.Size = new System.Drawing.Size(195, 22);
+            this.FileMenu_Open.Text = "Open";
             this.FileMenu_Open.Click += new System.EventHandler(this.FileMenu_Open_Click);
             // 
             // FileMenu_Save
             // 
             this.FileMenu_Save.Name = "FileMenu_Save";
-            this.FileMenu_Save.Size = new System.Drawing.Size(199, 22);
-            this.FileMenu_Save.Text = "Save (Ctrl+S)";
+            this.FileMenu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.FileMenu_Save.Size = new System.Drawing.Size(195, 22);
+            this.FileMenu_Save.Text = "Save";
             this.FileMenu_Save.Click += new System.EventHandler(this.button_Save_Click);
+            // 
+            // FileMenu_LoadImage
+            // 
+            this.FileMenu_LoadImage.Name = "FileMenu_LoadImage";
+            this.FileMenu_LoadImage.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.FileMenu_LoadImage.Size = new System.Drawing.Size(195, 22);
+            this.FileMenu_LoadImage.Text = "Load Image";
+            this.FileMenu_LoadImage.Click += new System.EventHandler(this.button_CardArt_Click);
             // 
             // FileMenu_SaveAs
             // 
             this.FileMenu_SaveAs.Name = "FileMenu_SaveAs";
-            this.FileMenu_SaveAs.Size = new System.Drawing.Size(199, 22);
-            this.FileMenu_SaveAs.Text = "Save As... (Ctrl+Shift+S)";
+            this.FileMenu_SaveAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.FileMenu_SaveAs.Size = new System.Drawing.Size(195, 22);
+            this.FileMenu_SaveAs.Text = "Save As...";
             this.FileMenu_SaveAs.Click += new System.EventHandler(this.FileMenu_SaveAs_Click);
             // 
             // FileMenu_SaveImage
             // 
             this.FileMenu_SaveImage.Name = "FileMenu_SaveImage";
-            this.FileMenu_SaveImage.Size = new System.Drawing.Size(199, 22);
-            this.FileMenu_SaveImage.Text = "Save Image (Ctrl+E)";
+            this.FileMenu_SaveImage.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.FileMenu_SaveImage.Size = new System.Drawing.Size(195, 22);
+            this.FileMenu_SaveImage.Text = "Save Image";
             this.FileMenu_SaveImage.Click += new System.EventHandler(this.button_SaveImage_Click);
             // 
             // FileMenu_Close
             // 
             this.FileMenu_Close.Name = "FileMenu_Close";
-            this.FileMenu_Close.Size = new System.Drawing.Size(199, 22);
+            this.FileMenu_Close.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.FileMenu_Close.Size = new System.Drawing.Size(195, 22);
             this.FileMenu_Close.Text = "Close";
             this.FileMenu_Close.Click += new System.EventHandler(this.FileMenu_Close_Click);
             // 
@@ -829,22 +845,23 @@
             // ExportMenu_FanonTable
             // 
             this.ExportMenu_FanonTable.Name = "ExportMenu_FanonTable";
-            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(151, 22);
+            this.ExportMenu_FanonTable.Size = new System.Drawing.Size(152, 22);
             this.ExportMenu_FanonTable.Text = "Card Table";
             this.ExportMenu_FanonTable.Click += new System.EventHandler(this.ExportMenu_FanonTable_Click);
             // 
             // ExportMenu_ReadableText
             // 
             this.ExportMenu_ReadableText.Name = "ExportMenu_ReadableText";
-            this.ExportMenu_ReadableText.Size = new System.Drawing.Size(151, 22);
+            this.ExportMenu_ReadableText.Size = new System.Drawing.Size(152, 22);
             this.ExportMenu_ReadableText.Text = "Readable Text";
             this.ExportMenu_ReadableText.Click += new System.EventHandler(this.ExportMenu_ReadableText_Click);
             // 
             // ExportMenu_Image
             // 
             this.ExportMenu_Image.Name = "ExportMenu_Image";
-            this.ExportMenu_Image.Size = new System.Drawing.Size(151, 22);
-            this.ExportMenu_Image.Text = "Image (Ctrl+E)";
+            this.ExportMenu_Image.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.ExportMenu_Image.Size = new System.Drawing.Size(152, 22);
+            this.ExportMenu_Image.Text = "Image";
             this.ExportMenu_Image.Click += new System.EventHandler(this.button_SaveImage_Click);
             // 
             // menustripTool_Help
@@ -859,14 +876,16 @@
             // HelpMenu_Help
             // 
             this.HelpMenu_Help.Name = "HelpMenu_Help";
-            this.HelpMenu_Help.Size = new System.Drawing.Size(107, 22);
+            this.HelpMenu_Help.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.HelpMenu_Help.Size = new System.Drawing.Size(126, 22);
             this.HelpMenu_Help.Text = "Help";
             this.HelpMenu_Help.Click += new System.EventHandler(this.HelpMenu_Help_Click);
             // 
             // HelpMenu_About
             // 
             this.HelpMenu_About.Name = "HelpMenu_About";
-            this.HelpMenu_About.Size = new System.Drawing.Size(107, 22);
+            this.HelpMenu_About.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.HelpMenu_About.Size = new System.Drawing.Size(126, 22);
             this.HelpMenu_About.Text = "About";
             this.HelpMenu_About.Click += new System.EventHandler(this.HelpMenu_About_Click);
             // 
@@ -906,13 +925,6 @@
             this.picBox_CardImage.Size = new System.Drawing.Size(349, 508);
             this.picBox_CardImage.TabIndex = 0;
             this.picBox_CardImage.TabStop = false;
-            // 
-            // FileMenu_LoadImage
-            // 
-            this.FileMenu_LoadImage.Name = "FileMenu_LoadImage";
-            this.FileMenu_LoadImage.Size = new System.Drawing.Size(199, 22);
-            this.FileMenu_LoadImage.Text = "Load Image (Ctrl+L)";
-            this.FileMenu_LoadImage.Click += new System.EventHandler(this.button_CardArt_Click);
             // 
             // MainForm
             // 
@@ -1029,6 +1041,7 @@
         private System.Windows.Forms.ToolStripMenuItem TextboxMenu_Spacing;
         private System.Windows.Forms.ToolStripMenuItem ExportMenu_ReadableText;
         private System.Windows.Forms.ToolStripMenuItem FileMenu_LoadImage;
+        private System.Windows.Forms.SaveFileDialog saveDataLoadFile;
     }
 }
 

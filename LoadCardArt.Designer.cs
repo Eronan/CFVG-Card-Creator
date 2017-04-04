@@ -113,6 +113,11 @@
             0,
             0,
             0});
+            this.numeric_Height.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numeric_Height.Name = "numeric_Height";
             this.numeric_Height.Size = new System.Drawing.Size(52, 20);
             this.numeric_Height.TabIndex = 7;
@@ -137,6 +142,11 @@
             this.numeric_Width.Location = new System.Drawing.Point(292, 19);
             this.numeric_Width.Maximum = new decimal(new int[] {
             349,
+            0,
+            0,
+            0});
+            this.numeric_Width.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -239,8 +249,10 @@
             this.Controls.Add(this.pictureBox_View);
             this.Controls.Add(this.picBox_CardImage);
             this.Controls.Add(this.group_Selection);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(862, 504);
+            this.MinimumSize = new System.Drawing.Size(862, 504);
             this.Name = "LoadCardArt";
             this.Text = "LoadCardArt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoadCardArt_FormClosing);

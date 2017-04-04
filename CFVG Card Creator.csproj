@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="SpecialLayer.cs" />
     <Compile Include="TextLayer.cs" />
+    <Compile Include="UserRect.cs" />
     <EmbeddedResource Include="LoadCardArt.resx">
       <DependentUpon>LoadCardArt.cs</DependentUpon>
     </EmbeddedResource>
