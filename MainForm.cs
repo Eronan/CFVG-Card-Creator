@@ -39,6 +39,12 @@ namespace CFVG_Card_Creator
 
         //Other
         string filePath = null;
+
+        //Preference Information
+        string cardArtPath = "";
+        string imagePath = "";
+        string dataPath = "";
+        bool invertRespace = false;
         string appPath = Application.StartupPath;
 
         private void SetUp()
@@ -104,7 +110,38 @@ namespace CFVG_Card_Creator
             specialReplacements.Add("SCR", Properties.Resources.RedIcon_SC);
 
             //Check if File Exists
-            if (File.Exists(appPath + "/Settings.xml"))
+            if (!File.Exists(appPath + "/Settings.xml"))
+            {
+                //Create File
+                using (XmlWriter writer = XmlWriter.Create("Settings.xml"))
+                {
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("Settings");
+
+
+                    //Path for Card Art
+                    writer.WriteStartElement("CARDARTPATH");
+                    writer.WriteString(cardArtPath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Image Path
+                    writer.WriteStartElement("IMAGEPATH");
+                    writer.WriteString(imagePath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Data Path
+                    writer.WriteStartElement("DATAPATH");
+                    writer.WriteString(dataPath);
+                    writer.WriteFullEndElement();
+
+                    //Boolean Value for Respacing
+                    writer.WriteElementString("RESPACE", invertRespace.ToString());
+
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+                }
+            }
+            else
             {
                 //Load Settings
                 using (XmlReader reader = XmlReader.Create(appPath + "/Settings.xml"))
@@ -120,22 +157,22 @@ namespace CFVG_Card_Creator
                                 case "CARDARTPATH":
                                     //Read path for card Art
                                     reader.Read();
-                                    Properties.Settings.Default.cardArtPath = reader.Value;
+                                    cardArtPath = reader.Value;
                                     break;
                                 case "IMAGEPATH":
                                     //Read Path for Images
                                     reader.Read();
-                                    Properties.Settings.Default.imagePath = reader.Value;
+                                    imagePath = reader.Value;
                                     break;
                                 case "DATAPATH":
                                     //Read Path for Save Files
                                     reader.Read();
-                                    Properties.Settings.Default.dataPath = reader.Value;
+                                    dataPath = reader.Value;
                                     break;
                                 case "RESPACE":
                                     //Read BooleaN for Inverting
                                     reader.Read();
-                                    Properties.Settings.Default.invertRespace = bool.Parse(reader.Value);
+                                    invertRespace = bool.Parse(reader.Value);
                                     break;
                             }
                         }
@@ -144,37 +181,31 @@ namespace CFVG_Card_Creator
 
             }
 
-            saveImage.InitialDirectory = Properties.Settings.Default.imagePath;
-            openData.InitialDirectory = Properties.Settings.Default.dataPath;
-            saveData.InitialDirectory = Properties.Settings.Default.dataPath;
+            saveImage.InitialDirectory = imagePath;
+            openData.InitialDirectory = dataPath;
+            saveData.InitialDirectory = dataPath;
 
             //Load Fonts
-            /*
+
             PrivateFontCollection myFonts = new PrivateFontCollection();
 
             //Impact
-            myFonts.AddFontFile(appPath + "/Fonts/impact.ttf");
+            myFonts.AddFontFile(appPath + "/Fonts\\impact.ttf");
             //MatrixBook
-            myFonts.AddFontFile(appPath + "/Fonts/MatrixBook.ttf");
+            myFonts.AddFontFile(appPath + "/Fonts\\MatrixBook.ttf");
             //Optima
-            myFonts.AddFontFile(appPath + "/Fonts/Optima_Regular.ttf");
-            //myFonts.AddFontFile(appPath + "/Fonts/Optima_Bold.ttf");
-            myFonts.AddFontFile(appPath + "/Fonts/Optima_Italic.ttf");
+            myFonts.AddFontFile(appPath + "/Fonts\\Optima_Regular.ttf");
+            //myFonts.AddFontFile(appPath + "/Fonts\\Optima_Bold.ttf");
+            myFonts.AddFontFile(appPath + "/Fonts\\Optima_Italic.ttf");
             //OptimaThin
-            myFonts.AddFontFile(appPath + "/Fonts/Optima_Thin.TTF");
+            myFonts.AddFontFile(appPath + "/Fonts\\Optima_Thin.ttf");
 
 
             //Load into FontFamily
-            Impact = new FontFamily("Impact", myFonts);
+            Impact = new FontFamily("impact", myFonts);
             MatrixBook = new FontFamily("MatrixBook", myFonts);
             Optima = new FontFamily("Optima", myFonts);
             Optima_Thin = new FontFamily("optima-Thin", myFonts);
-            */
-
-            Impact = fontFromFile("impact.ttf");
-            MatrixBook = fontFromFile("MatrixBook.ttf");
-            Optima = fontFromFile(new string[2] { "Optima_Regular.ttf", "Optima_Italic.ttf"});
-            Optima_Thin = fontFromFile("Optima_Thin.TTF");
 
             mainBitmap.MakeTransparent();
             CardArt.MakeTransparent();
@@ -184,8 +215,6 @@ namespace CFVG_Card_Creator
             combobox_Trigger.SelectedIndex = 0;
             combobox_Shield.SelectedIndex = 0;
             combobox_Nation.SelectedIndex = 0;
-
-            
         }
 
         public MainForm()
@@ -255,6 +284,46 @@ namespace CFVG_Card_Creator
             //checkbox_SP.Enabled = false;
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.N))
+            {
+                //New File
+                FileMenu_New_Click(FileMenu_New, null);
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.O))
+            {
+                //Open File
+                FileMenu_Open_Click(FileMenu_Open, null);
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.S))
+            {
+                //Save File
+                button_Save_Click(FileMenu_Save, null);
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.Shift | Keys.S))
+            {
+                //Save File As
+                FileMenu_SaveAs_Click(FileMenu_SaveAs, null);
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.E))
+            {
+                //Export Image
+                button_SaveImage_Click(FileMenu_SaveImage, null);
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.L))
+            {
+                //Load Card Art
+                button_CardArt_Click(FileMenu_LoadImage, null);
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void FileMenu_New_Click(object sender, EventArgs e)
         {
             //Reset Fields to Defaults
@@ -286,7 +355,7 @@ namespace CFVG_Card_Creator
         private void FileMenu_Open_Click(object sender, EventArgs e)
         {
             DialogResult result = openData.ShowDialog(this);
-            openData.InitialDirectory = Properties.Settings.Default.dataPath;
+            openData.InitialDirectory = dataPath;
 
             if (result == DialogResult.OK)
             {
@@ -323,7 +392,7 @@ namespace CFVG_Card_Creator
                 //Save to new File
                 saveData.FileName = textbox_Name.Text;
                 DialogResult result = saveData.ShowDialog(this);
-                saveData.InitialDirectory = Properties.Settings.Default.dataPath;
+                saveData.InitialDirectory = dataPath;
 
                 if (result == DialogResult.OK) saveToFile(saveData.FileName);
             }
@@ -376,44 +445,76 @@ namespace CFVG_Card_Creator
 
         private void button_CardArt_Click(object sender, EventArgs e)
         {
-            LoadCardArt cardartForm = new LoadCardArt(Properties.Settings.Default.cardArtPath);
-            if (cardartForm.ShowDialog(this) == DialogResult.OK)
+            LoadCardArt cardartForm = new LoadCardArt(cardArtPath);
+            try
             {
-                CardArt = (Bitmap)cardartForm.saveBitmap.Clone();
+                if (cardartForm.ShowDialog(this) == DialogResult.OK)
+                {
+                    CardArt = (Bitmap)cardartForm.saveBitmap.Clone();
 
-                //Disable
-                group_Edit.Enabled = false;
-                Cursor = Cursors.WaitCursor;
-                //Update
-                UpdateLayers();
-                UpdateImage();
-                //Reset Cursor
-                Cursor = Cursors.Default;
-                group_Edit.Enabled = true;
+                    //Disable
+                    group_Edit.Enabled = false;
+                    Cursor = Cursors.WaitCursor;
+                    //Update
+                    UpdateLayers();
+                    UpdateImage();
+                    //Reset Cursor
+                    Cursor = Cursors.Default;
+                    group_Edit.Enabled = true;
 
-                button_CardArt.Focus();
+                    button_CardArt.Focus();
+                }
                 cardartForm.saveBitmap.Dispose();
+                cardartForm.Dispose();
             }
-
-            cardartForm.Dispose();
+            catch (ObjectDisposedException) { }
         }
 
         private void EditMenu_Preferences_Click(object sender, EventArgs e)
         {
             //Load Preferences
-            Preferences prefForm = new Preferences(Properties.Settings.Default.cardArtPath, Properties.Settings.Default.imagePath, Properties.Settings.Default.dataPath, Properties.Settings.Default.invertRespace);
+            Preferences prefForm = new Preferences(cardArtPath, imagePath, dataPath, invertRespace);
 
             if (prefForm.ShowDialog(this) == DialogResult.OK)
             {
-                Properties.Settings.Default.cardArtPath = prefForm.textbox_CardArt.Text;
-                Properties.Settings.Default.imagePath = prefForm.textbox_Images.Text;
-                Properties.Settings.Default.dataPath = prefForm.textbox_Data.Text;
-                Properties.Settings.Default.invertRespace = prefForm.checkbox_Respace.Checked;
+                cardArtPath = prefForm.textbox_CardArt.Text;
+                imagePath = prefForm.textbox_Images.Text;
+                dataPath = prefForm.textbox_Data.Text;
+                invertRespace = prefForm.checkbox_Respace.Checked;
 
-                saveImage.InitialDirectory = Properties.Settings.Default.imagePath;
-                openData.InitialDirectory = Properties.Settings.Default.dataPath;
-                saveData.InitialDirectory = Properties.Settings.Default.dataPath;
+                saveImage.InitialDirectory = imagePath;
+                openData.InitialDirectory = dataPath;
+                saveData.InitialDirectory = dataPath;
+
+                using (XmlWriter writer = XmlWriter.Create("Settings.xml"))
+                {
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("Settings");
+
+
+                    //Path for Card Art
+                    writer.WriteStartElement("CARDARTPATH");
+                    writer.WriteString(cardArtPath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Image Path
+                    writer.WriteStartElement("IMAGEPATH");
+                    writer.WriteString(imagePath);
+                    writer.WriteFullEndElement();
+
+                    //Path for Data Path
+                    writer.WriteStartElement("DATAPATH");
+                    writer.WriteString(dataPath);
+                    writer.WriteFullEndElement();
+
+                    //Boolean Value for Respacing
+                    writer.WriteElementString("RESPACE", invertRespace.ToString());
+
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+                }
             }
+
             prefForm.Dispose();
         }
 
@@ -560,7 +661,7 @@ namespace CFVG_Card_Creator
             else if (combobox_Border.Text == "G-Guardian") cardTableExport += "|skillicon = none" + Environment.NewLine;
 
             //G-Guardian determines Power && Crit
-            if (combobox_Border.Text != "G-Guardian") cardTableExport += "|power = " + ( combobox_Border.Text == "G-Guardian" ? numeric_Power.Value : 0) + Environment.NewLine;
+            if (combobox_Border.Text != "G-Guardian") cardTableExport += "|power = " + numeric_Power.Value + Environment.NewLine;
             else cardTableExport += "|critical = nil" + Environment.NewLine;
 
             //Shield
@@ -637,6 +738,7 @@ namespace CFVG_Card_Creator
             label_Text.Size = new System.Drawing.Size(238, 13);
             label_Text.TabIndex = 0;
             label_Text.TabStop = true;
+            label_Text.Text = "Share your card's information in text format";
 
             DialogResult copy = ShowExportText("Readable Text", label_Text, text);
             if (copy==DialogResult.OK) Clipboard.SetText(text);
@@ -1100,7 +1202,7 @@ namespace CFVG_Card_Creator
             if (checkbox_Effect.Checked && richtextbox_Effect.Text.Length > 0)
             {
                 //Determne Word Splitter
-                char[] splitChars = Properties.Settings.Default.invertRespace ? new char[2] { '_', ' ' } : new char[2] { ' ', '_' };
+                char[] splitChars = invertRespace ? new char[2] { '_', ' ' } : new char[2] { ' ', '_' };
 
 
                 if (checkbox_SP.Checked && richtextbox_Effect.Lines.Length > 0)
@@ -1367,32 +1469,6 @@ namespace CFVG_Card_Creator
 
             DialogResult result = About.ShowDialog();
             return result;
-        }
-
-        public FontFamily fontFromFile(string filename)
-        {
-            PrivateFontCollection font = new PrivateFontCollection();
-            font.AddFontFile(appPath + "/Fonts/" + filename);
-            return font.Families[0];
-        }
-
-        public FontFamily fontFromFile(string[] files)
-        {
-            PrivateFontCollection fonts = new PrivateFontCollection();
-            foreach (string filename in files)
-            {
-                fonts.AddFontFile(appPath + "/Fonts/" + filename);
-            }
-            return fonts.Families[0];
-        }
-
-        private void ExportMenu_Database_Click(object sender, EventArgs e)
-        {
-            /*if (openData.ShowDialog(this) == DialogResult.OK)
-            {
-                string file = openData.FileName;
-                
-            }*/
         }
     }
 }

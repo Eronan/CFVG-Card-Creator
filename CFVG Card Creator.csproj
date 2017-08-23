@@ -94,6 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ResizeRect.cs" />
     <Compile Include="SpecialLayer.cs" />
     <Compile Include="TextLayer.cs" />
     <Compile Include="UserRect.cs" />

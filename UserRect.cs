@@ -14,6 +14,7 @@ namespace CFVG_Card_Creator
         private PictureBox mPictureBox;
         public Rectangle rect;
         public bool allowDeformingDuringMovement = false;
+        public bool Validated = true;
         private bool mIsClick = false;
         private bool mMove = false;
         private int oldX;
@@ -21,7 +22,6 @@ namespace CFVG_Card_Creator
         private int sizeNodeRect = 5;
         private Bitmap mBmp = null;
         private PosSizableRect nodeSelected = PosSizableRect.None;
-        private int angle = 30;
 
         //Original
         private bool widthChanged = false;
@@ -48,9 +48,11 @@ namespace CFVG_Card_Creator
             None
         };
 
-        public UserRect(Rectangle r)
+        public UserRect(Rectangle r, decimal resizeValue)
         {
-            rect = r;
+            rect = new Rectangle((int)(r.X * resize), (int)(r.Y * resize), (int)(r.Width * resizeValue), (int)(r.Height * resizeValue));
+
+            resize = resizeValue;
             mIsClick = false;
         }
 
@@ -64,6 +66,11 @@ namespace CFVG_Card_Creator
             }
         }
 
+        public void SetRectangle(decimal x, decimal y, decimal width, decimal height)
+        {
+            rect = new Rectangle((int)(x * resize), (int)(y * resize), (int)(width * resize), (int)(height * resize));
+        }
+
         public void SetBitmapFile(string filename)
         {
             this.mBmp = new Bitmap(filename);
@@ -74,15 +81,13 @@ namespace CFVG_Card_Creator
             this.mBmp = bmp;
         }
 
-        public void SetPictureBox(PictureBox p, decimal resizeValue)
+        public void SetPictureBox(PictureBox p)
         {
             this.mPictureBox = p;
             mPictureBox.MouseDown += new MouseEventHandler(mPictureBox_MouseDown);
             mPictureBox.MouseUp += new MouseEventHandler(mPictureBox_MouseUp);
-            //mPictureBox.MouseMove += new MouseEventHandler(mPictureBox_MouseMove);
+            mPictureBox.MouseMove += new MouseEventHandler(mPictureBox_MouseMove);
             mPictureBox.Paint += new PaintEventHandler(mPictureBox_Paint);
-
-            resize = resizeValue;
         }
 
         public void mPictureBox_Paint(object sender, PaintEventArgs e)
@@ -122,6 +127,7 @@ namespace CFVG_Card_Creator
 
         public void mPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            Validated = false;
             ChangeCursor(e.Location);
             if (mIsClick == false)
             {
@@ -281,6 +287,7 @@ namespace CFVG_Card_Creator
                     mIsClick = false;
                 }
             }
+            Validated = true;
         }
 
         public void SetMaximums(decimal minWidth, decimal maxWidth, decimal minHeight, decimal maxHeight)
@@ -330,17 +337,14 @@ namespace CFVG_Card_Creator
 
         public RectangleF getBounds()
         {
-            return new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+            return new RectangleF((int)(rect.X / resize), (int)(rect.Y / resize), (int)(rect.Width / resize), (int)(rect.Height / resize));
         }
 
         private PosSizableRect GetNodeSelectable(Point p)
         {
             foreach (PosSizableRect r in Enum.GetValues(typeof(PosSizableRect)))
             {
-                if (GetRect(r).Contains(p))
-                {
-                    return r;
-                }
+                if (GetRect(r).Contains(p)) return r;
             }
             return PosSizableRect.None;
         }
@@ -352,22 +356,22 @@ namespace CFVG_Card_Creator
 
         public int currentX
         {
-            get { return rect.X; }
+            get { return (int)(rect.X / resize); }
         }
 
         public int currentY
         {
-            get { return rect.Y; }
+            get { return (int)(rect.Y / resize); }
         }
 
         public int currentWidth
         {
-            get { return rect.Width; }
+            get { return (int)(rect.Width / resize); }
         }
 
         public int currentHeight
         {
-            get { return rect.Height; }
+            get { return (int)(rect.Height / resize); }
         }
 
         /// <summary>

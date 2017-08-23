@@ -11,7 +11,8 @@ namespace CFVG_Card_Creator
         Bitmap originBitmap = null;
         Bitmap viewBitmap;
         public Bitmap saveBitmap = new Bitmap(349, 441);
-        UserRect rect;
+        UserRect cropRect;
+        //ResizeRect picRect;
 
         //Resolution of the CardArt
         public static double NormResolution = 349.0 / 441.0;
@@ -67,7 +68,6 @@ namespace CFVG_Card_Creator
                 {
                     //Load up File from Path
                     originBitmap = new Bitmap(openImageFile.FileName);
-                    viewBitmap = (Bitmap)originBitmap.Clone();
                     pictureBox_View.Image = viewBitmap;
 
                     //Check which is smaller width or Height.
@@ -89,6 +89,7 @@ namespace CFVG_Card_Creator
                 else
                 {
                     this.Close();
+                    return;
                 }
             }
             if (originBitmap.Width / 467 > originBitmap.Height / 355)
@@ -109,13 +110,16 @@ namespace CFVG_Card_Creator
                 int moveToX = pictureBox_View.Location.X - (int)(widthDifference / 2 * 1f);
                 pictureBox_View.Location = new Point(moveToX, pictureBox_View.Location.Y);
             }
+            viewBitmap = (Bitmap)originBitmap.Clone();
 
             /*Size sizestep1 = Size.Subtract(new Size(PictureBox1.Image.Size.Width / 2, PictureBox1.Image.Size.Height / 2), PictureBox1.Size);
             Size finalsize = Size.Add(sizestep1, PictureBox1.Image.Size);*/
 
-            rect = new UserRect(new Rectangle((int)numeric_PosX.Value, (int)numeric_PosY.Value, (int)(numeric_Width.Value * resizeValue), (int)(numeric_Height.Value * resizeValue)));
-            rect.SetPictureBox(pictureBox_View, resizeValue);
-            rect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
+            //picRect = new ResizeRect(viewBitmap, pictureBox_View, resizeValue);
+
+            cropRect = new UserRect(new Rectangle((int)numeric_PosX.Value, (int)numeric_PosY.Value, (int)(numeric_Width.Value), (int)(numeric_Height.Value)), resizeValue);
+            cropRect.SetPictureBox(pictureBox_View);
+            cropRect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
         }
 
         private void UpdatePicture()
@@ -144,6 +148,7 @@ namespace CFVG_Card_Creator
 
             //ViewBitmap is a new instance of OriginBitmap
             viewBitmap = (Bitmap) originBitmap.Clone();
+            //if (picRect != null) picRect.DrawRect(viewBitmap);
             /*
             //Load Graphics of Bitmap
             using (Graphics g = Graphics.FromImage(viewBitmap))
@@ -177,7 +182,7 @@ namespace CFVG_Card_Creator
                     label_Zoom.Text = "Zoom X: " + (int)((349.00m / numeric_Width.Value) * 100) + Environment.NewLine
                         + "Zoom Y: " + (int)((441.0m / numeric_Height.Value) * 100);
 
-                    if (rect != null) rect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
+                    if (cropRect != null) cropRect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
                 }
 
                 UpdatePicture();
@@ -186,11 +191,12 @@ namespace CFVG_Card_Creator
             {
                 actOnEvent = true;
 
-                if (!mouseDrag && rect != null)
+                if (!mouseDrag && cropRect != null)
                 {
-                    rect.rect = new Rectangle((int)numeric_PosX.Value, (int)numeric_PosY.Value, (int)(numeric_Width.Value * resizeValue), (int)(numeric_Height.Value * resizeValue));
-
-                    rect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
+                    
+                    cropRect.SetRectangle(numeric_PosX.Value, numeric_PosY.Value, numeric_Width.Value, numeric_Height.Value);
+                    cropRect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
+                    
                     pictureBox_View.Invalidate();
                 }
             }
@@ -217,7 +223,7 @@ namespace CFVG_Card_Creator
                     label_Zoom.Text = "Zoom X: " + (int)((331.00m / numeric_Width.Value) * 100) + Environment.NewLine
                         + "Zoom Y: " + (int)((441.0m / numeric_Height.Value) * 100);
 
-                    if (rect != null) rect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
+                    if (cropRect != null) cropRect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
                 }
 
                 UpdatePicture();
@@ -226,11 +232,11 @@ namespace CFVG_Card_Creator
             {
                 actOnEvent = true;
 
-                if (!mouseDrag && rect != null)
+                if (!mouseDrag && cropRect!= null)
                 {
-                    rect.rect = new Rectangle((int)numeric_PosX.Value, (int)numeric_PosY.Value, (int)(numeric_Width.Value * resizeValue), (int)(numeric_Height.Value * resizeValue));
+                    cropRect.SetRectangle(numeric_PosX.Value, numeric_PosY.Value, numeric_Width.Value, numeric_Height.Value);
 
-                    rect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
+                    cropRect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
                     pictureBox_View.Invalidate();
                 }
             }
@@ -240,9 +246,9 @@ namespace CFVG_Card_Creator
 
         private void numeric_Pos_ValueChanged(object sender, EventArgs e)
         {
-            if (!mouseDrag && rect != null)
+            if (!mouseDrag && cropRect != null)
             {
-                rect.rect = new Rectangle((int) numeric_PosX.Value, (int) numeric_PosY.Value, (int) (numeric_Width.Value * resizeValue), (int)(numeric_Height.Value * resizeValue));
+                cropRect.rect = new Rectangle((int) (numeric_PosX.Value), (int) (numeric_PosY.Value), (int) (numeric_Width.Value), (int)(numeric_Height.Value));
 
                 pictureBox_View.Invalidate();
             }
@@ -265,26 +271,27 @@ namespace CFVG_Card_Creator
 
         private void pictureBox_View_MouseMove(object sender, MouseEventArgs e)
         {
-            //Only work if mouseDrag is true
-            rect.mPictureBox_MouseMove(sender, e);
-
-            if (mouseDrag)
+            /*if (mouseDrag)
             {
-                decimal getWidth = rect.currentWidth / resizeValue;
-                decimal getHeight = rect.currentHeight / resizeValue;
-                numeric_Width.Value = getHeight > numeric_Width.Maximum ? numeric_Width.Maximum : getWidth;
-                numeric_Height.Value = getHeight < numeric_Height.Maximum ? numeric_Height.Maximum : getHeight;
+                numeric_Height.Value = picRect.Height;
+                numeric_Width.Value = picRect.Width;
+                numeric_PosX.Value = picRect.X;
+                numeric_PosY.Value = picRect.Y;
+            }*/
+            //Only work if mouseDrag is true
+            //cropRect.mPictureBox_MouseMove(sender, e);
 
-                numeric_PosX.Maximum = originBitmap.Width - numeric_Width.Value;
-                numeric_PosY.Maximum = originBitmap.Height - numeric_Height.Value;
+            if (mouseDrag && cropRect.Validated)
+            {
+                numeric_Width.Value = cropRect.currentWidth;
+                numeric_Height.Value = cropRect.currentHeight;
 
-                decimal getPosX = rect.currentX / resizeValue;
-                decimal getPosY = rect.currentY / resizeValue;
-                numeric_PosX.Value = getPosX > numeric_PosX.Maximum ? numeric_PosX.Maximum : getPosX;
-                numeric_PosY.Value = getPosY > numeric_PosY.Maximum ? numeric_PosY.Maximum : getPosY;
+                numeric_PosX.Value = cropRect.currentX;
+                numeric_PosY.Value = cropRect.currentY;
 
-                //UpdatePicture();
+                UpdatePicture();
             }
+            
         }
 
         private void checkbox_Ratio_CheckedChanged(object sender, EventArgs e)
@@ -315,10 +322,10 @@ namespace CFVG_Card_Creator
                 numeric_Height.Maximum = originBitmap.Height;
             }
 
-            if (rect != null)
+            if (cropRect != null)
             {
-                rect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
-                rect.ratio = checkbox_Ratio.Checked;
+                cropRect.SetMaximums(numeric_Width.Minimum, numeric_Width.Maximum, numeric_Height.Minimum, numeric_Height.Maximum);
+                cropRect.ratio = checkbox_Ratio.Checked;
             }
         }
 

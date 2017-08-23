@@ -1,0 +1,18 @@
+System.ArgumentException: A null reference or invalid value was found [GDI+ status: InvalidParameter]
+  at System.Drawing.GDIPlus.CheckStatus (System.Drawing.Status status) [0x0009b] in <1917aa1c39d94b1a91807b8cd9f03350>:0 
+  at System.Drawing.Font..ctor (System.Drawing.FontFamily family, System.Single emSize, System.Drawing.FontStyle style, System.Drawing.GraphicsUnit unit, System.Byte gdiCharSet, System.Boolean gdiVerticalFont) [0x00047] in <1917aa1c39d94b1a91807b8cd9f03350>:0 
+  at System.Drawing.Font..ctor (System.Drawing.FontFamily family, System.Single emSize, System.Drawing.FontStyle style) [0x00000] in <1917aa1c39d94b1a91807b8cd9f03350>:0 
+  at (wrapper remoting-invoke-with-check) System.Drawing.Font:.ctor (System.Drawing.FontFamily,single,System.Drawing.FontStyle)
+  at CFVG_Card_Creator.MainForm.UpdateLayers () [0x005c8] in <ea158e339daf464d978fc1f6593c7b31>:0 
+  at CFVG_Card_Creator.MainForm.button_CardArt_Click (System.Object sender, System.EventArgs e) [0x0004b] in <ea158e339daf464d978fc1f6593c7b31>:0 
+  at System.Windows.Forms.Control.OnClick (System.EventArgs e) [0x0001c] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.Button.OnClick (System.EventArgs e) [0x00024] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.ButtonBase.OnMouseUp (System.Windows.Forms.MouseEventArgs mevent) [0x00081] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.Button.OnMouseUp (System.Windows.Forms.MouseEventArgs mevent) [0x00000] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.Control.WmLButtonUp (System.Windows.Forms.Message& m) [0x0007e] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.Control.WndProc (System.Windows.Forms.Message& m) [0x0016f] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.ButtonBase.WndProc (System.Windows.Forms.Message& m) [0x0004e] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.Button.WndProc (System.Windows.Forms.Message& m) [0x00000] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.Control+ControlWindowTarget.OnMessage (System.Windows.Forms.Message& m) [0x00000] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.Control+ControlNativeWindow.WndProc (System.Windows.Forms.Message& m) [0x0000b] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
+  at System.Windows.Forms.NativeWindow.WndProc (System.IntPtr hWnd, System.Windows.Forms.Msg msg, System.IntPtr wParam, System.IntPtr lParam) [0x0008e] in <d5b72d15d4f7424c8a1538e3f19ec2e3>:0 
