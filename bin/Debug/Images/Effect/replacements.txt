@@ -19,6 +19,7 @@ Twin = Icon_Twin.png;
 GB1 = GB_1.png;
 GB2 = GB_2.png;
 GB3 = GB_3.png;
+GB8 = GB_8.png;
 LB4 = LB_4.png;
 LB5 = LB_5.png;
 Leg20 = Leg_20.png;
